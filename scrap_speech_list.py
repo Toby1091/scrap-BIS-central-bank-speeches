@@ -1,7 +1,6 @@
 import scrapy
 
 # TODO:
-# - write current page number to file
 # - validate output: verify that each page is present and has 25 entries (except the most recent one)
 
 
@@ -27,12 +26,14 @@ class Spider(scrapy.Spider):
             page += 1
 
     def parse(self, response):
+        page_num = response.css('.pageof span::text').get()
         for row in response.css('table tbody tr'):
             [date, speech_info] = row.css('td')
             title = speech_info.css('div.title a::text').get()
             url = speech_info.css('div.title a::attr("href")').get()
 
             yield {
-                'title': speech_info.css('div.title a::text').get(),
-                'url': speech_info.css('div.title a::attr("href")').get(),
+                'title': title,
+                'url': url,
+                'page_num': int(page_num.split(' ')[0].replace(',', ''))
             }
