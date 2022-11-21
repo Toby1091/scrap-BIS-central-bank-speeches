@@ -1,3 +1,5 @@
+from bs4 import BeautifulSoup
+
 import scrapy
 
 # TODO:
@@ -29,11 +31,14 @@ class Spider(scrapy.Spider):
         page_num = response.css('.pageof span::text').get()
         for row in response.css('table tbody tr'):
             [date, speech_info] = row.css('td')
+            speech_date = speech_info.css('.item_date td::text').get()
             title = speech_info.css('div.title a::text').get()
             url = speech_info.css('div.title a::attr("href")').get()
 
             yield {
                 'title': title,
                 'url': url,
-                'page_num': int(page_num.split(' ')[0].replace(',', ''))
+                'page_num': int(page_num.split(' ')[0].replace(',', '')),
+                'speech_date': speech_date
             }
+tag = doc.title
