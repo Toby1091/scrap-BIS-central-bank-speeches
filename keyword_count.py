@@ -12,9 +12,9 @@ KEYWORDS = ['natural rate', 'natural level', 'natural rate of unemployment', 'na
 'long-term rate of', 'neutral rate of interest', 'neutral interest rate', 'neutral real interest rate ', 
 'short-term real interest rate', 'equilibrium rate', 'output gap']
 
-speech_txt_path = 'txt/'
+speech_directory = 'txt'
 
-txt_file_names = os.listdir(speech_txt_path)
+txt_file_names = os.listdir(speech_directory)
 
 keyword_count = {}
 
@@ -22,9 +22,10 @@ for keyword in KEYWORDS: # Creates a new variable (in this case called "keyword"
     keyword_count[keyword] = 0 #...runs the following code, after loop is run, the variable is deleted from memory & the next list element is taken as a variable)
 
 for txt_file_name in txt_file_names: 
-    f = open(speech_txt_path + txt_file_name)
-
-    content = f.read()
+    joined_file_path = os.path.join(speech_directory, txt_file_name) # function adds a / between the two arguments
+    file_handle = open(joined_file_path) # this is where we actually open the file
+    
+    content = file_handle.read().lower()
 
     for keyword in KEYWORDS:
         keyword_count[keyword] = keyword_count[keyword] + content.count(keyword)
