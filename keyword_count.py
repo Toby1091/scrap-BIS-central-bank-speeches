@@ -18,7 +18,7 @@ txt_file_names = os.listdir(speech_txt_path)
 
 keyword_count = {}
 
-for keyword in KEYWORDS: #creates a new variable (in this case called "keyword") for every element of the list KEYWORDS...
+for keyword in KEYWORDS: # Creates a new variable (in this case called "keyword") for every element of the list KEYWORDS...
     keyword_count[keyword] = 0 #...runs the following code, after loop is run, the variable is deleted from memory & the next list element is taken as a variable)
 
 for txt_file_name in txt_file_names: 
@@ -35,6 +35,6 @@ for keyword in keyword_count:
 total_count = 0
 
 for keyword in keyword_count:
-    total_count += keyword_count[keyword] #this is a shortcut total_count = total_count + keyword_count_dict[dict_entry]
+    total_count += keyword_count[keyword] #This is a shortcut total_count = total_count + keyword_count_dict[dict_entry]
 
 print('Total count: ', total_count)
