@@ -3,12 +3,11 @@ import requests
 import pprint
 
 
-def fetch_speech_list():
-    # page = 1
+def fetch_speech_list(page):
     formdata = {
-        #'page': str(page),
-        #'paging_length': '25',
-        #'sort_list': 'date_asc',
+        'page': str(page),
+        'paging_length': '25',
+        'sort_list': 'date_asc',
         'theme': 'cbspeeches',
         'objid': 'cbspeeches',
     }
@@ -21,6 +20,13 @@ def fetch_speech_list():
     html_code = response.text
 
     return html_code
+
+
+def extract_page_count_from_speech_list_document(html_code):
+    document = BeautifulSoup(html_code, 'html.parser')
+    count_label = document.find('div', class_='pageof').find('span').string
+    count = count_label.split(' of ')[1].replace(',', '')
+    return int(count)
 
 
 def extract_info_from_speech_list_document(html_code):
@@ -47,6 +53,21 @@ def extract_info_from_speech_list_document(html_code):
     return speeches
 
 
-html_code = fetch_speech_list()
-speeches = extract_info_from_speech_list_document(html_code)
-pprint.pprint(speeches)
+def main():
+    speeches = []
+    current_page = 1
+    while True:
+        print('Fetch page', current_page)
+        html_code = fetch_speech_list(current_page)
+        page_count = extract_page_count_from_speech_list_document(html_code)
+        print(repr(page_count))
+        speeches.extend(extract_info_from_speech_list_document(html_code))
+        if current_page > page_count or current_page > 10:
+            print('break', current_page > page_count, page_count > 10)
+            break
+        current_page += 1
+
+
+    pprint.pprint(len(speeches))
+
+main()
