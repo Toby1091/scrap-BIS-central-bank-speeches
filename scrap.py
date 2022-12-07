@@ -4,16 +4,21 @@ import pprint
 
 
 def fetch_speech_list(page):
+    # We fetch pages in ascending order, starting with page 1 (= the oldest page). This way
+    # the contents of a certain page remain the same; new speeches will be added to the page with
+    # the hightest number. This allows to easily cache results in have the script fetch only pages
+    # that have been appended since the last run.
     formdata = {
         'page': str(page),
         'paging_length': '25',
         'sort_list': 'date_asc',
-        'theme': 'cbspeeches',
-        'objid': 'cbspeeches',
+        'theme': 'cbspeeches', # no idea what this is. The website sends this parameter, so we do as well.
+        'objid': 'cbspeeches', # no idea what this is. The website sends this parameter, so we do as well.
     }
 
     response = requests.post('https://www.bis.org/doclist/cbspeeches.htm', data=formdata)
 
+    # Note: The website responds with status 200 even for non-existing pages :-(
     if(response.status_code != 200):
         raise Exception('HTTP request failed with status code', response.status_code)
 
@@ -22,9 +27,10 @@ def fetch_speech_list(page):
     return html_code
 
 
-def extract_page_count_from_speech_list_document(html_code):
+def extract_total_page_count_from_speech_list_document(html_code):
     document = BeautifulSoup(html_code, 'html.parser')
     count_label = document.find('div', class_='pageof').find('span').string
+    # How total page count is displayed on website: "1 of 1,827"
     count = count_label.split(' of ')[1].replace(',', '')
     return int(count)
 
@@ -59,11 +65,9 @@ def main():
     while True:
         print('Fetch page', current_page)
         html_code = fetch_speech_list(current_page)
-        page_count = extract_page_count_from_speech_list_document(html_code)
-        print(repr(page_count))
+        page_count = extract_total_page_count_from_speech_list_document(html_code)
         speeches.extend(extract_info_from_speech_list_document(html_code))
         if current_page > page_count or current_page > 10:
-            print('break', current_page > page_count, page_count > 10)
             break
         current_page += 1
 
