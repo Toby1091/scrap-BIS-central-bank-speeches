@@ -59,17 +59,52 @@ def extract_info_from_speech_list_document(html_code):
     return speeches
 
 
+def fetch_speech_detail(path):
+    print('Fetch detail page', path)
+    response = requests.get('https://www.bis.org/' + path)
+
+    if(response.status_code != 200):
+        raise Exception('HTTP request failed with status code', response.status_code)
+
+    print(repr(response.headers['content-type']))
+    if response.headers['content-type'].lower().startswith('application/pdf'):
+        filename = response.url.split('/')[-1]
+        file_path = os.path.join('pdfs', filename)
+        if os.path.exists(file_path):
+            raise Exception('File %s exists already'.format(file_path))
+        pdf = open(file_path, 'wb')
+        pdf.write(response.content)
+        pdf.close()
+        return None
+    else:
+        html_code = response.text
+        return html_code
+
+
+def extract_speech_detail(html_code):
+    document = BeautifulSoup(html_code, 'html.parser')
+    a_tag = document.find('div', id='center').find('div', class_='pdftxt').find('a', class_='pdftitle_link')
+    path = a_tag['href']
+    fetch_speech_detail(path)
+
+
 def main():
     speeches = []
     current_page = 1
     while True:
-        print('Fetch page', current_page)
+        print('Fetch list page', current_page)
         html_code = fetch_speech_list(current_page)
         page_count = extract_total_page_count_from_speech_list_document(html_code)
         speeches.extend(extract_info_from_speech_list_document(html_code))
         if current_page > page_count or current_page > 10:
             break
         current_page += 1
+
+
+    for speech in speeches:
+        html_code = fetch_speech_detail(speech['path'])
+        if html_code:
+            extract_speech_detail(html_code)
 
 
     pprint.pprint(len(speeches))
