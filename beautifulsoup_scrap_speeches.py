@@ -23,7 +23,7 @@ def fetch_page(path):
     return html_code
 
 
-def extract_total_page_count_from_speech_list_document(html_code):
+def extract_total_page_count_from_speech_list_html(html_code):
     document = BeautifulSoup(html_code, 'html.parser')
     count_label = document.find('div', class_='pageof').find('span').string
     # How total page count is displayed on website: "1 of 1,827"
@@ -31,7 +31,7 @@ def extract_total_page_count_from_speech_list_document(html_code):
     return int(count)
 
 
-def extract_info_from_speech_list_document(html_code):
+def extract_meta_data_from_speech_list_html(html_code):
     document = BeautifulSoup(html_code, 'html.parser')
     doc_list = document.find('table', class_='documentList')
     rows = doc_list.find_all('tr')
@@ -55,7 +55,7 @@ def extract_info_from_speech_list_document(html_code):
     return speeches
 
 
-def extract_speech_detail_page(html_code):
+def extract_pdf_path_from_speech_detail_html(html_code):
     document = BeautifulSoup(html_code, 'html.parser')
     a_tag = document.find('div', id='center').find('div', class_='pdftxt').find('a', class_='pdftitle_link')
     path = a_tag['href']
@@ -90,8 +90,8 @@ def main():
         params = '?page={page}&paging_length=25&sort_list=date_desc'
         html_code = fetch_page('doclist/cbspeeches.htm' + params)
 
-        page_count = extract_total_page_count_from_speech_list_document(html_code)
-        speeches.extend(extract_info_from_speech_list_document(html_code))
+        page_count = extract_total_page_count_from_speech_list_html(html_code)
+        speeches.extend(extract_meta_data_from_speech_list_html(html_code))
         if current_page > page_count or current_page > 10:
             break
         current_page += 1
@@ -102,7 +102,7 @@ def main():
             fetch_pdf(speech['path'])
         else:
             html_code = fetch_page(speech['path'])
-            pdf_path = extract_speech_detail_page(html_code)
+            pdf_path = extract_pdf_path_from_speech_detail_html(html_code)
             fetch_pdf(pdf_path)
 
 
