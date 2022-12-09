@@ -59,7 +59,7 @@ def extract_info_from_speech_list_document(html_code):
     return speeches
 
 
-def fetch_speech_detail(path):
+def fetch_speech_detail_page(path):
     print('Fetch detail page', path)
     response = requests.get('https://www.bis.org/' + path)
 
@@ -70,11 +70,11 @@ def fetch_speech_detail(path):
     return html_code
 
 
-def extract_speech_detail(html_code):
+def extract_speech_detail_page(html_code):
     document = BeautifulSoup(html_code, 'html.parser')
     a_tag = document.find('div', id='center').find('div', class_='pdftxt').find('a', class_='pdftitle_link')
     path = a_tag['href']
-    fetch_speech_detail(path)
+    fetch_speech_detail_page(path)
 
 
 def fetch_pdf(path):
@@ -111,8 +111,8 @@ def main():
         if speech['path'].endswith('.pdf'):
             fetch_pdf(speech['path'])
         else:
-            html_code = fetch_speech_detail(speech['path'])
-            pdf_path = extract_speech_detail(html_code)
+            html_code = fetch_speech_detail_page(speech['path'])
+            pdf_path = extract_speech_detail_page(html_code)
             fetch_pdf(speech['path'])
 
 
