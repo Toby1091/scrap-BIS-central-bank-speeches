@@ -7,7 +7,7 @@ import pprint
 CACHE_FOLDER = 'cache'
 
 
-def fetch_page(path):
+def fetch_page_or_pdf(path):
     print('Fetch page', path)
     cache_path = os.path.join(CACHE_FOLDER, path.lstrip('/'))
 
@@ -19,14 +19,17 @@ def fetch_page(path):
     if(response.status_code != 200):
         raise Exception('HTTP request failed with status code', response.status_code)
 
-    html_code = response.text
-
     os.makedirs(os.path.dirname(cache_path), exist_ok=True)
-    file_handle = open(cache_path, 'w')
-    file_handle.write(html_code)
+
+    is_pdf = response.headers['content-type'].lower().startswith('application/pdf')
+    mode = 'wb' if is_pdf else 'w'
+    content = response.content if is_pdf else response.text
+
+    file_handle = open(cache_path, mode)
+    file_handle.write(content)
     file_handle.close()
 
-    return html_code
+    return content
 
 
 def extract_total_page_count_from_speech_list_html(html_code):
@@ -68,23 +71,6 @@ def extract_pdf_path_from_speech_detail_html(html_code):
     return path
 
 
-def fetch_pdf(path):
-    print('Fetch pdf')
-    response = requests.get('https://www.bis.org/' + path)
-
-    if(response.status_code != 200):
-        raise Exception('HTTP request failed with status code', response.status_code)
-
-    filename = response.url.split('/')[-1]
-    file_path = os.path.join('pdfs', filename)
-    if os.path.exists(file_path):
-        raise Exception('File %s exists already'.format(file_path))
-
-    pdf = open(file_path, 'wb')
-    pdf.write(response.content)
-    pdf.close()
-
-
 def main():
     speeches = []
     current_page = 1
@@ -94,7 +80,7 @@ def main():
         # the hightest number. This allows to easily cache results in have the script fetch only pages
         # that have been appended since the last run.
         params = f'?page={current_page}&paging_length=25&sort_list=date_desc'
-        html_code = fetch_page('doclist/cbspeeches.htm' + params)
+        html_code = fetch_page_or_pdf('doclist/cbspeeches.htm' + params)
 
         page_count = extract_total_page_count_from_speech_list_html(html_code)
         speeches.extend(extract_meta_data_from_speech_list_html(html_code))
@@ -105,11 +91,11 @@ def main():
 
     for speech in speeches:
         if speech['path'].endswith('.pdf'):
-            fetch_pdf(speech['path'])
+            fetch_page_or_pdf(speech['path'])
         else:
-            html_code = fetch_page(speech['path'])
+            html_code = fetch_page_or_pdf(speech['path'])
             pdf_path = extract_pdf_path_from_speech_detail_html(html_code)
-            fetch_pdf(pdf_path)
+            fetch_page_or_pdf(pdf_path)
 
 
     pprint.pprint(len(speeches))
