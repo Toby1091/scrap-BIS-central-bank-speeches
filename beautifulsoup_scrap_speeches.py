@@ -93,7 +93,7 @@ def main():
         # the contents of a certain page remain the same; new speeches will be added to the page with
         # the hightest number. This allows to easily cache results in have the script fetch only pages
         # that have been appended since the last run.
-        params = '?page={page}&paging_length=25&sort_list=date_desc'
+        params = f'?page={current_page}&paging_length=25&sort_list=date_desc'
         html_code = fetch_page('doclist/cbspeeches.htm' + params)
 
         page_count = extract_total_page_count_from_speech_list_html(html_code)
