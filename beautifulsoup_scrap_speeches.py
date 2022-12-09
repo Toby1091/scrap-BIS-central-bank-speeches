@@ -8,15 +8,8 @@ def fetch_speech_list(page):
     # the contents of a certain page remain the same; new speeches will be added to the page with
     # the hightest number. This allows to easily cache results in have the script fetch only pages
     # that have been appended since the last run.
-    formdata = {
-        'page': str(page),
-        'paging_length': '25',
-        'sort_list': 'date_asc',
-        'theme': 'cbspeeches', # no idea what this is. The website sends this parameter, so we do as well.
-        'objid': 'cbspeeches', # no idea what this is. The website sends this parameter, so we do as well.
-    }
-
-    response = requests.post('https://www.bis.org/doclist/cbspeeches.htm', data=formdata)
+    params = '?page={page}&paging_length=25&sort_list=date_desc'
+    response = requests.get('https://www.bis.org/doclist/cbspeeches.htm' + params)
 
     # Note: The website responds with status 200 even for non-existing pages :-(
     if(response.status_code != 200):
