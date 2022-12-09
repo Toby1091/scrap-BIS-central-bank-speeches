@@ -6,13 +6,16 @@ import pprint
 
 CACHE_FOLDER = 'cache'
 
+def get_cache_path(path):
+    return os.path.join(CACHE_FOLDER, path.lstrip('/'))
+
 
 def fetch_page_or_pdf(path):
     print('Fetch page', path)
-    cache_path = os.path.join(CACHE_FOLDER, path.lstrip('/'))
+    cache_path = get_cache_path(path)
 
     if os.path.exists(cache_path):
-        return open(cache_path).read()
+        return
 
     response = requests.get('https://www.bis.org/' + path)
 
@@ -29,7 +32,10 @@ def fetch_page_or_pdf(path):
     file_handle.write(content)
     file_handle.close()
 
-    return content
+
+def read_file_from_cache(path):
+    cache_path = get_cache_path(path)
+    return open(cache_path).read()
 
 
 def extract_total_page_count_from_speech_list_html(html_code):
@@ -80,11 +86,13 @@ def main():
         # the hightest number. This allows to easily cache results in have the script fetch only pages
         # that have been appended since the last run.
         params = f'?page={current_page}&paging_length=25&sort_list=date_desc'
-        html_code = fetch_page_or_pdf('doclist/cbspeeches.htm' + params)
+        path = 'doclist/cbspeeches.htm' + params
+        fetch_page_or_pdf(path)
+        html_code = read_file_from_cache(path)
 
         page_count = extract_total_page_count_from_speech_list_html(html_code)
         speeches.extend(extract_meta_data_from_speech_list_html(html_code))
-        if current_page > page_count or current_page > 10:
+        if current_page > page_count or current_page > 1:
             break
         current_page += 1
 
@@ -93,7 +101,8 @@ def main():
         if speech['path'].endswith('.pdf'):
             fetch_page_or_pdf(speech['path'])
         else:
-            html_code = fetch_page_or_pdf(speech['path'])
+            fetch_page_or_pdf(speech['path'])
+            html_code = read_file_from_cache(speech['path'])
             pdf_path = extract_pdf_path_from_speech_detail_html(html_code)
             fetch_page_or_pdf(pdf_path)
 
