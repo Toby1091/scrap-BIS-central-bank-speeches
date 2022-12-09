@@ -10,11 +10,11 @@ def get_cache_path(path):
     return os.path.join(CACHE_FOLDER, path.lstrip('/'))
 
 
-def fetch_page_or_pdf(path):
-    print('Fetch page', path)
+def fetch_page_or_pdf(path, force_refetch=False):
+    print(f'Fetch page {path} (refetch={force_refetch})')
     cache_path = get_cache_path(path)
 
-    if os.path.exists(cache_path):
+    if not force_refetch and os.path.exists(cache_path):
         return
 
     response = requests.get('https://www.bis.org/' + path)
@@ -77,21 +77,29 @@ def extract_pdf_path_from_speech_detail_html(html_code):
     return path
 
 
+def fetch_list_page(page_number, force_refetch):
+    # We fetch pages in ascending order, starting with page 1 (= the oldest page). This way
+    # the contents of a certain page remain the same; new speeches will be added to the page with
+    # the hightest number. This allows to easily cache results in have the script fetch only pages
+    # that have been appended since the last run.
+    params = f'?page={page_number}&paging_length=25&sort_list=date_desc'
+    path = 'doclist/cbspeeches.htm' + params
+
+    fetch_page_or_pdf(path, force_refetch)
+    html_code = read_file_from_cache(path)
+    return html_code
+
+
 def main():
+    html_code = fetch_list_page(1, True)
+    page_count = extract_total_page_count_from_speech_list_html(html_code)
+
     speeches = []
     current_page = 1
     while True:
-        # We fetch pages in ascending order, starting with page 1 (= the oldest page). This way
-        # the contents of a certain page remain the same; new speeches will be added to the page with
-        # the hightest number. This allows to easily cache results in have the script fetch only pages
-        # that have been appended since the last run.
-        params = f'?page={current_page}&paging_length=25&sort_list=date_desc'
-        path = 'doclist/cbspeeches.htm' + params
-        fetch_page_or_pdf(path)
-        html_code = read_file_from_cache(path)
-
-        page_count = extract_total_page_count_from_speech_list_html(html_code)
-        speeches.extend(extract_meta_data_from_speech_list_html(html_code))
+        html_code = fetch_list_page(current_page, current_page == page_count)
+        speeches_of_current_page = extract_meta_data_from_speech_list_html(html_code)
+        speeches.extend(speeches_of_current_page)
         if current_page > page_count or current_page > 1:
             break
         current_page += 1
