@@ -66,19 +66,8 @@ def fetch_speech_detail(path):
     if(response.status_code != 200):
         raise Exception('HTTP request failed with status code', response.status_code)
 
-    print(repr(response.headers['content-type']))
-    if response.headers['content-type'].lower().startswith('application/pdf'):
-        filename = response.url.split('/')[-1]
-        file_path = os.path.join('pdfs', filename)
-        if os.path.exists(file_path):
-            raise Exception('File %s exists already'.format(file_path))
-        pdf = open(file_path, 'wb')
-        pdf.write(response.content)
-        pdf.close()
-        return None
-    else:
-        html_code = response.text
-        return html_code
+    html_code = response.text
+    return html_code
 
 
 def extract_speech_detail(html_code):
@@ -86,6 +75,23 @@ def extract_speech_detail(html_code):
     a_tag = document.find('div', id='center').find('div', class_='pdftxt').find('a', class_='pdftitle_link')
     path = a_tag['href']
     fetch_speech_detail(path)
+
+
+def fetch_pdf(path):
+    print('Fetch pdf')
+    response = requests.get('https://www.bis.org/' + path)
+
+    if(response.status_code != 200):
+        raise Exception('HTTP request failed with status code', response.status_code)
+
+    filename = response.url.split('/')[-1]
+    file_path = os.path.join('pdfs', filename)
+    if os.path.exists(file_path):
+        raise Exception('File %s exists already'.format(file_path))
+
+    pdf = open(file_path, 'wb')
+    pdf.write(response.content)
+    pdf.close()
 
 
 def main():
@@ -102,9 +108,12 @@ def main():
 
 
     for speech in speeches:
-        html_code = fetch_speech_detail(speech['path'])
-        if html_code:
-            extract_speech_detail(html_code)
+        if speech['path'].endswith('.pdf'):
+            fetch_pdf(speech['path'])
+        else:
+            html_code = fetch_speech_detail(speech['path'])
+            pdf_path = extract_speech_detail(html_code)
+            fetch_pdf(speech['path'])
 
 
     pprint.pprint(len(speeches))
