@@ -3,13 +3,6 @@ import requests
 import pprint
 
 
-def fetch_speech_list(page):
-    # We fetch pages in ascending order, starting with page 1 (= the oldest page). This way
-    # the contents of a certain page remain the same; new speeches will be added to the page with
-    # the hightest number. This allows to easily cache results in have the script fetch only pages
-    # that have been appended since the last run.
-    params = '?page={page}&paging_length=25&sort_list=date_desc'
-    response = requests.get('https://www.bis.org/doclist/cbspeeches.htm' + params)
 
 
 def fetch_page(path):
