@@ -11,12 +11,15 @@ def fetch_speech_list(page):
     params = '?page={page}&paging_length=25&sort_list=date_desc'
     response = requests.get('https://www.bis.org/doclist/cbspeeches.htm' + params)
 
-    # Note: The website responds with status 200 even for non-existing pages :-(
+
+def fetch_page(path):
+    print('Fetch page', path)
+    response = requests.get('https://www.bis.org/' + path)
+
     if(response.status_code != 200):
         raise Exception('HTTP request failed with status code', response.status_code)
 
     html_code = response.text
-
     return html_code
 
 
@@ -52,22 +55,11 @@ def extract_info_from_speech_list_document(html_code):
     return speeches
 
 
-def fetch_speech_detail_page(path):
-    print('Fetch detail page', path)
-    response = requests.get('https://www.bis.org/' + path)
-
-    if(response.status_code != 200):
-        raise Exception('HTTP request failed with status code', response.status_code)
-
-    html_code = response.text
-    return html_code
-
-
 def extract_speech_detail_page(html_code):
     document = BeautifulSoup(html_code, 'html.parser')
     a_tag = document.find('div', id='center').find('div', class_='pdftxt').find('a', class_='pdftitle_link')
     path = a_tag['href']
-    fetch_speech_detail_page(path)
+    return path
 
 
 def fetch_pdf(path):
@@ -91,8 +83,13 @@ def main():
     speeches = []
     current_page = 1
     while True:
-        print('Fetch list page', current_page)
-        html_code = fetch_speech_list(current_page)
+        # We fetch pages in ascending order, starting with page 1 (= the oldest page). This way
+        # the contents of a certain page remain the same; new speeches will be added to the page with
+        # the hightest number. This allows to easily cache results in have the script fetch only pages
+        # that have been appended since the last run.
+        params = '?page={page}&paging_length=25&sort_list=date_desc'
+        html_code = fetch_page('doclist/cbspeeches.htm' + params)
+
         page_count = extract_total_page_count_from_speech_list_document(html_code)
         speeches.extend(extract_info_from_speech_list_document(html_code))
         if current_page > page_count or current_page > 10:
@@ -104,7 +101,7 @@ def main():
         if speech['path'].endswith('.pdf'):
             fetch_pdf(speech['path'])
         else:
-            html_code = fetch_speech_detail_page(speech['path'])
+            html_code = fetch_page(speech['path'])
             pdf_path = extract_speech_detail_page(html_code)
             fetch_pdf(pdf_path)
 
