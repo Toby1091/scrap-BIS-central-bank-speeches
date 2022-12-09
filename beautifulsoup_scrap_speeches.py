@@ -4,15 +4,28 @@ import pprint
 
 
 
+CACHE_FOLDER = 'cache'
+
 
 def fetch_page(path):
     print('Fetch page', path)
+    cache_path = os.path.join(CACHE_FOLDER, path.lstrip('/'))
+
+    if os.path.exists(cache_path):
+        return open(cache_path).read()
+
     response = requests.get('https://www.bis.org/' + path)
 
     if(response.status_code != 200):
         raise Exception('HTTP request failed with status code', response.status_code)
 
     html_code = response.text
+
+    os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+    file_handle = open(cache_path, 'w')
+    file_handle.write(html_code)
+    file_handle.close()
+
     return html_code
 
 
