@@ -106,7 +106,7 @@ def main():
         else:
             html_code = fetch_speech_detail_page(speech['path'])
             pdf_path = extract_speech_detail_page(html_code)
-            fetch_pdf(speech['path'])
+            fetch_pdf(pdf_path)
 
 
     pprint.pprint(len(speeches))
