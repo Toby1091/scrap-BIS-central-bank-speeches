@@ -1,8 +1,14 @@
 from bs4 import BeautifulSoup
 import requests
 import pprint
+import os
 
-
+"""
+TODO:
+- fetch central bank list list
+- extract name of central bank info
+- store meta data in JSONL file
+"""
 
 CACHE_FOLDER = 'cache'
 
@@ -115,6 +121,6 @@ def main():
             fetch_page_or_pdf(pdf_path)
 
 
-    pprint.pprint(len(speeches))
+    pprint.pprint(speeches)
 
 main()
