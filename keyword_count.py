@@ -8,13 +8,10 @@ The script analyzes all files in this directory (i.e. a large data set of txt fi
 
 import os
 
-KEYWORDS = ['natural rate', 'natural level', 'natural rate of unemployment', 'natural unemployment rate', 'u*', 'N*', 'nairu', 'NIRU', 'nawru',
-'non-accelerating inflation rate of unemployment', 'noncyclical rate of unemployment', 'natural rate of interest', 'natural interest rate', 'r*', 'potential output', 
-'potential growth', 'Y*', 'trend growth', 'long-term rate of', 'long-run rate of', 'neutral rate of interest', 'neutral interest rate', 
-'neutral real interest rate ', 'short-term real interest rate', 'equilibrium rate', 'output gap']
-'non-accelerating inflation rate of unemployment', 'noncyclical rate of unemployment', 'natural rate of interest', 'natural interest rate', 
-'neutral interest rate', 'neutral real interest rate ', 'equilibrium real rate of interest', 'equilibrium rate', 
-'short-term real interest rate', 'output gap']
+with open("list_of_keywords.txt") as file_handle:
+    content = file_handle.read()
+
+KEYWORDS = content.split(',')
 
 speech_directory = 'txt'
 
