@@ -5,8 +5,8 @@ import os
 
 """
 TODO:
-- fetch central bank list list
-- extract name of central bank info
+- fetch ID of central banks from speech list page: https://www.bis.org/dcms/api/token_data/institutions.json?list=cbspeeches&theme=cbspeeches&
+- extract name from central bank info
 - store meta data in JSONL file
 """
 
@@ -88,7 +88,7 @@ def fetch_list_page(page_number, force_refetch):
     # the contents of a certain page remain the same; new speeches will be added to the page with
     # the hightest number. This allows to easily cache results in have the script fetch only pages
     # that have been appended since the last run.
-    params = f'?page={page_number}&paging_length=25&sort_list=date_desc'
+    params = f'?page={page_number}&paging_length=25&sort_list=date_asc'
     path = 'doclist/cbspeeches.htm' + params
 
     fetch_page_or_pdf(path, force_refetch)
@@ -106,12 +106,13 @@ def main():
         html_code = fetch_list_page(current_page, current_page == page_count)
         speeches_of_current_page = extract_meta_data_from_speech_list_html(html_code)
         speeches.extend(speeches_of_current_page)
-        if current_page > page_count or current_page > 1:
+        if current_page > page_count:
             break
         current_page += 1
 
 
-    for speech in speeches:
+    for index, speech in enumerate(speeches):
+        print(index)
         if speech['path'].endswith('.pdf'):
             fetch_page_or_pdf(speech['path'])
         else:
