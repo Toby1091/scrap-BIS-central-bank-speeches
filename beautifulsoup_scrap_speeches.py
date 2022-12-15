@@ -10,6 +10,9 @@ TODO:
 - store meta data in JSONL file
 - make debug mode automatic/configurable
 - accept cache directory as argument
+- use url-lib to parse bank-ID url
+- resolve bank-ID into bank name
+- convert PDFs into txt files
 """
 
 CACHE_FOLDER = 'cache'
@@ -113,9 +116,9 @@ def main():
 
     while True:
         html_code = fetch_list_page(current_page, current_page == page_count)
-        if current_page > page_count:
         speeches_metadata_of_current_page = extract_meta_data_from_speech_list_html(html_code)
         speeches_metadata.extend(speeches_metadata_of_current_page)
+        if current_page > page_count:
             break
         current_page += 1
 
