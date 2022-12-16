@@ -6,7 +6,9 @@ import os
 """
 TODO:
 - fetch ID of central banks from speech list page: https://www.bis.org/dcms/api/token_data/institutions.json?list=cbspeeches&theme=cbspeeches&
+- for repeated websracping: force refetch of last cached list file instead of most recent list on website
 - extract name from central bank info
+    √ subheading extraction
 - store meta data in JSONL file
 - make debug mode automatic/configurable
 - accept cache directory as argument
