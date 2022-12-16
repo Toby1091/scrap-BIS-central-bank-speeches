@@ -62,10 +62,10 @@ def extract_subheading_from_speech_list_html(p_tags):
         if span_tag:
             span_tag_text = span_tag.string.strip()
             return span_tag_text
-
-        p_tag_text = p_tag.string.strip() 
-        if p_tag_text != '':
-            return p_tag_text
+        
+        p_tag_text = p_tag.string
+        if p_tag_text:
+            return p_tag_text.strip()
 
 def extract_meta_data_from_speech_list_html(html_code):
     document = BeautifulSoup(html_code, 'html.parser')
