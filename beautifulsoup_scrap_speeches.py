@@ -18,6 +18,7 @@ TODO:
 - convert PDFs into txt files
 """
 
+
 CACHE_FOLDER = 'cache'
 
 def get_cache_path(path):
@@ -139,15 +140,11 @@ def fetch_list_page(page_number, force_refetch):
     return html_code
 
 
-def main():
-    banks_dict = fetch_bank_list()
-
+def process_speech_lists(speeches_metadata):
     html_code = fetch_list_page(1, True)
     page_count = extract_total_page_count_from_speech_list_html(html_code)
-    speeches_metadata = []
-    errors = []
-    current_page = 1
 
+    current_page = 1
     while True:
         html_code = fetch_list_page(current_page, current_page == page_count)
         speeches_metadata_of_current_page = extract_meta_data_from_speech_list_html(html_code)
@@ -155,6 +152,10 @@ def main():
         if current_page >= page_count:
             break
         current_page += 1
+
+
+def process_speech_detail_pages(speeches_metadata, errors):
+    banks_dict = fetch_bank_list()
 
     for index, speech in enumerate(speeches_metadata):
         print(index)
@@ -172,6 +173,14 @@ def main():
                 bank_name = banks_dict[pdf_path_and_bank_id[1]]
                 speech['central_bank'] = bank_name
 
+
+def main():
+    speeches_metadata = []
+    errors = []
+
+    process_speech_lists(speeches_metadata)
+    process_speech_detail_pages(speeches_metadata, errors)
+    
     pprint.pprint(speeches_metadata)
     print('Error: ', errors)
 
