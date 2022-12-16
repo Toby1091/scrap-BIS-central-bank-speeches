@@ -58,14 +58,11 @@ def extract_total_page_count_from_speech_list_html(html_code):
 
 def extract_subheading_from_speech_list_html(p_tags):
     for p_tag in p_tags:
-        span_tag = p_tag.find('span')
-        if span_tag:
-            span_tag_text = span_tag.string.strip()
-            return span_tag_text
-        
-        p_tag_text = p_tag.string
-        if p_tag_text:
-            return p_tag_text.strip()
+        strings = p_tag.strings
+        for text in strings:
+            stripped_text = text.strip()
+            if stripped_text:
+                return stripped_text
 
 def extract_meta_data_from_speech_list_html(html_code):
     document = BeautifulSoup(html_code, 'html.parser')
@@ -149,3 +146,6 @@ def main():
     pprint.pprint(speeches_metadata)
 
 main()
+# html_code = fetch_list_page(732, True)
+# results = extract_meta_data_from_speech_list_html(html_code)
+# pprint.pprint(results)
