@@ -23,6 +23,18 @@ def get_cache_path(path):
     return os.path.join(CACHE_FOLDER, path.lstrip('/'))
 
 
+def fetch_bank_list():
+    response = requests.get('https://www.bis.org/dcms/api/token_data/institutions.json?list=cbspeeches&theme=cbspeeches&')
+    if(response.status_code != 200):
+        raise Exception('HTTP request failed with status code', response.status_code)
+    banks_list = response.json()
+
+    banks_dict = {}
+    for d in banks_list:
+        banks_dict[d['id']] = d['name']
+    return banks_dict
+
+
 def fetch_page_or_pdf(path, force_refetch=False):
     print(f'Fetch page {path} (force refetch={force_refetch})')
     cache_path = get_cache_path(path)
@@ -98,12 +110,9 @@ def extract_pdf_path_from_speech_detail_html(html_code):
     a_tag_bank_id_link = document.find('div', id='center').find('div', id='relatedinfo-div').find('a')
 
     bank_id = a_tag_bank_id_link['href'].split('institutions=')[1]
-    
-    print("Central Bank ID: ", int(bank_id))
-
     path = a_tag['href']
 
-    return path, bank_id
+    return path, int(bank_id)
 
 
 def fetch_list_page(page_number, force_refetch):
@@ -120,6 +129,8 @@ def fetch_list_page(page_number, force_refetch):
 
 
 def main():
+    banks_dict = fetch_bank_list()
+
     html_code = fetch_list_page(1, True)
     page_count = extract_total_page_count_from_speech_list_html(html_code)
     speeches_metadata = []
@@ -142,8 +153,8 @@ def main():
             html_code = read_file_from_cache(speech['path'])
             pdf_path_and_bank_id = extract_pdf_path_from_speech_detail_html(html_code)
             fetch_page_or_pdf(pdf_path_and_bank_id[0])
-            bank_id = pdf_path_and_bank_id[1]
-            speech['central_bank_id'] = bank_id
+            bank_name = banks_dict[pdf_path_and_bank_id[1]]
+            speech['central_bank'] = bank_name
 
     pprint.pprint(speeches_metadata)
 
