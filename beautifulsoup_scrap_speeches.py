@@ -9,6 +9,7 @@ TODO:
 - for repeated websracping: force refetch of last cached list file instead of most recent list on website
 - extract name from central bank info
     √ subheading extraction
+    Deal with missing bank name matches
 - store meta data in JSONL file
 - make debug mode automatic/configurable
 - accept cache directory as argument
@@ -33,6 +34,12 @@ def fetch_bank_list():
     for d in banks_list:
         banks_dict[d['id']] = d['name']
     return banks_dict
+
+
+def find_bank_name(banks_dict, subheading):
+    for bank_name in banks_dict.values():
+        if bank_name.lower() in subheading.lower():
+            return bank_name
 
 
 def fetch_page_or_pdf(path, force_refetch=False):
@@ -148,6 +155,7 @@ def main():
         print(index)
         if speech['path'].endswith('.pdf'):
             fetch_page_or_pdf(speech['path'])
+            speech['central_bank'] = find_bank_name(banks_dict, speech['subheading'])
         else:
             fetch_page_or_pdf(speech['path'])
             html_code = read_file_from_cache(speech['path'])
