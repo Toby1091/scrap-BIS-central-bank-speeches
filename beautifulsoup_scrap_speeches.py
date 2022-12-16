@@ -114,7 +114,11 @@ def extract_meta_data_from_speech_list_html(html_code):
 def extract_pdf_path_from_speech_detail_html(html_code):
     document = BeautifulSoup(html_code, 'html.parser')
     a_tag = document.find('div', id='center').find('div', class_='pdftxt').find('a', class_='pdftitle_link')
-    a_tag_bank_id_link = document.find('div', id='center').find('div', id='relatedinfo-div').find('a')
+    relatedinfo_tag = document.find('div', id='center').find('div', id='relatedinfo-div')
+    if relatedinfo_tag is None:
+        return None 
+
+    a_tag_bank_id_link = relatedinfo_tag.find('a')
 
     bank_id = a_tag_bank_id_link['href'].split('institutions=')[1]
     path = a_tag['href']
@@ -141,6 +145,7 @@ def main():
     html_code = fetch_list_page(1, True)
     page_count = extract_total_page_count_from_speech_list_html(html_code)
     speeches_metadata = []
+    errors = []
     current_page = 1
 
     while True:
@@ -160,11 +165,15 @@ def main():
             fetch_page_or_pdf(speech['path'])
             html_code = read_file_from_cache(speech['path'])
             pdf_path_and_bank_id = extract_pdf_path_from_speech_detail_html(html_code)
-            fetch_page_or_pdf(pdf_path_and_bank_id[0])
-            bank_name = banks_dict[pdf_path_and_bank_id[1]]
-            speech['central_bank'] = bank_name
+            if pdf_path_and_bank_id is None:
+                errors.append('missing PDF link: ' + speech['path'])
+            else:
+                fetch_page_or_pdf(pdf_path_and_bank_id[0])
+                bank_name = banks_dict[pdf_path_and_bank_id[1]]
+                speech['central_bank'] = bank_name
 
     pprint.pprint(speeches_metadata)
+    print('Error: ', errors)
 
 main()
 # html_code = fetch_list_page(732, True)
