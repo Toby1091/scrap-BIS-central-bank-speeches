@@ -8,8 +8,8 @@ TODO:
 - √ fetch ID of central banks from speech list page: https://www.bis.org/dcms/api/token_data/institutions.json?list=cbspeeches&theme=cbspeeches&
 - for repeated websracping: force refetch of last cached list file instead of most recent list on website
 - extract name from central bank info
-    √ subheading extraction
-    Deal with missing bank name matches
+- √ subheading extraction
+- Deal with missing bank name matches
 - store meta data in JSONL file
 - make debug mode automatic/configurable
 - accept cache directory as argument
@@ -115,6 +115,9 @@ def extract_meta_data_from_speech_list_html(html_code):
 def extract_pdf_path_from_speech_detail_html(html_code):
     document = BeautifulSoup(html_code, 'html.parser')
     a_tag = document.find('div', id='center').find('div', class_='pdftxt').find('a', class_='pdftitle_link')
+    if a_tag is None:
+        return None, None
+
     relatedinfo_tag = document.find('div', id='center').find('div', id='relatedinfo-div')
     if relatedinfo_tag is None:
         return None, None
