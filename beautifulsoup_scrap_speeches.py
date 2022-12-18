@@ -122,10 +122,10 @@ def extract_pdf_path_from_speech_detail_html(html_code):
     a_tag_bank_id_link = relatedinfo_tag.find('a')
 
     parts = a_tag_bank_id_link['href'].split('institutions=')
-    bank_ID = parts[1] if len(parts) > 1 else None
+    bank_ID = int(parts[1]) if len(parts) > 1 else None
     path = a_tag['href']
 
-    return path, int(bank_ID)
+    return path, bank_ID
 
 
 def fetch_list_page(page_number, force_refetch):
