@@ -175,7 +175,7 @@ def process_speech_detail_pages(speeches_metadata, errors):
                 errors.append('missing PDF link: ' + speech['path'])
             else:
                 fetch_page_or_pdf(path)
-                bank_name = banks_dict[bank_ID]
+                bank_name = banks_dict.get(bank_ID)
                 speech['central_bank'] = bank_name
 
 
