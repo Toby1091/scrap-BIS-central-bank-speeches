@@ -5,7 +5,7 @@ import os
 
 """
 TODO:
-- fetch ID of central banks from speech list page: https://www.bis.org/dcms/api/token_data/institutions.json?list=cbspeeches&theme=cbspeeches&
+- √ fetch ID of central banks from speech list page: https://www.bis.org/dcms/api/token_data/institutions.json?list=cbspeeches&theme=cbspeeches&
 - for repeated websracping: force refetch of last cached list file instead of most recent list on website
 - extract name from central bank info
     √ subheading extraction
@@ -150,7 +150,7 @@ def process_speech_lists(speeches_metadata):
         html_code = fetch_list_page(current_page, current_page == page_count)
         speeches_metadata_of_current_page = extract_meta_data_from_speech_list_html(html_code)
         speeches_metadata.extend(speeches_metadata_of_current_page)
-        if current_page >= page_count:
+        if current_page >= page_count or current_page > 1:
             break
         current_page += 1
 
