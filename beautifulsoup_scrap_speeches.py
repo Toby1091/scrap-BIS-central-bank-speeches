@@ -171,7 +171,7 @@ def process_speech_detail_pages(speeches_metadata, errors):
             if bank_ID is None:
                 bank_ID = find_bank_name(banks_dict, speech['subheading'])
 
-            if bank_ID is None:
+            if path is None:
                 errors.append('missing PDF link: ' + speech['path'])
             else:
                 fetch_page_or_pdf(path)
