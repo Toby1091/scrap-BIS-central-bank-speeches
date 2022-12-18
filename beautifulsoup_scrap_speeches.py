@@ -122,10 +122,10 @@ def extract_pdf_path_from_speech_detail_html(html_code):
     a_tag_bank_id_link = relatedinfo_tag.find('a')
 
     parts = a_tag_bank_id_link['href'].split('institutions=')
-    bankId = parts[1] if len(parts > 1) else None
+    bank_ID = parts[1] if len(parts) > 1 else None
     path = a_tag['href']
 
-    return path, int(bank_id)
+    return path, int(bank_ID)
 
 
 def fetch_list_page(page_number, force_refetch):
@@ -166,16 +166,16 @@ def process_speech_detail_pages(speeches_metadata, errors):
         else:
             fetch_page_or_pdf(speech['path'])
             html_code = read_file_from_cache(speech['path'])
-            path, bankID = extract_pdf_path_from_speech_detail_html(html_code)
+            path, bank_ID = extract_pdf_path_from_speech_detail_html(html_code)
 
-            if bankID is None:
-                bankID = find_bank_name(banks_dict, speech['subheading'])
+            if bank_ID is None:
+                bank_ID = find_bank_name(banks_dict, speech['subheading'])
 
-            if bankID is None:
+            if bank_ID is None:
                 errors.append('missing PDF link: ' + speech['path'])
             else:
                 fetch_page_or_pdf(path)
-                bank_name = banks_dict[bankID]
+                bank_name = banks_dict[bank_ID]
                 speech['central_bank'] = bank_name
 
 
