@@ -153,7 +153,7 @@ def process_speech_lists(speeches_metadata):
         html_code = fetch_list_page(current_page, current_page == page_count)
         speeches_metadata_of_current_page = extract_meta_data_from_speech_list_html(html_code)
         speeches_metadata.extend(speeches_metadata_of_current_page)
-        if current_page >= page_count or current_page > 1:
+        if current_page >= page_count:
             break
         current_page += 1
 
