@@ -50,11 +50,6 @@ def load_bank_name_mapping():
         key=variant.lower()
         value=correct_  name
     """
-    # """
-    # Reads bank name mapping file and returns a dict with 
-    #     key=correct_ name
-    #     value=[variant.lower()]
-    # """
     mapping = {}
     with open('list_of_missing_bank_names.txt') as f:
         for line_no, line in enumerate(f.readlines()):
@@ -64,7 +59,6 @@ def load_bank_name_mapping():
                     continue
                 correct_name, variants = line.split(': ')
                 variants = variants.split(', ')
-                # mapping[correct_name] = [var.lower() for var in variants]
                 for var in variants:
                     mapping[var.lower()] = correct_name
             except Exception as e:
@@ -82,12 +76,9 @@ def find_bank_name(banks_from_json, bank_name_mapping, subheading):
     """
     for bank_name in banks_from_json.values():
         if bank_name.lower() in subheading.lower():
-            print('a', bank_name)
             if bank_name.lower() in bank_name_mapping:
-                print('a1')
                 return bank_name_mapping[bank_name.lower()]
             else:
-                print('a2')
                 return bank_name
     
     for bank_name in bank_name_mapping:
