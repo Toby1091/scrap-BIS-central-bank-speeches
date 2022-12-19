@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import pprint
 import os
+import json
 
 """
 TODO:
@@ -189,7 +190,8 @@ def main():
     process_speech_lists(speeches_metadata)
     process_speech_detail_pages(speeches_metadata, errors)
     
-    pprint.pprint(speeches_metadata)
+    with open('result.json', 'w') as f:
+        json.dump(speeches_metadata, f, indent=4)
     print('Error: ', errors)
 
 main()
