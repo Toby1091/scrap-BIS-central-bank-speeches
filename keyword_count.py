@@ -5,13 +5,15 @@ The script analyzes all files in this directory (i.e. a large data set of txt fi
 
 
 # TODO: 
-
+# - make script insensitive to accents (using regular expressions), lower case etc.
+# - allow for small variation in order of words (e.g. labor market equilibrium vs. equilibrium in labor markets)
+# Lemmatization/stemming: https://towardsai.net/p/data-mining/text-mining-in-python-steps-and-examples-78b3f8fd913b#:~:text=than%20Porter%20stemmer.-,Lemmatization,-In%20simpler%20terms
 import os
 
 with open("list_of_keywords.txt") as file_handle:
     content = file_handle.read()
 
-KEYWORDS = content.split(',')
+KEYWORDS = content.split('\n')
 
 speech_directory = 'txt'
 
