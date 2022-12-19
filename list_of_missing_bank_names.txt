@@ -1,0 +1,4 @@
+# Correct bank name: variant 1, variant 2
+Central bank of Austria: Central Bank of the Republic of Austria, National Bank of the Republic of Austria
+Central bank of Sweden: Central Bank of Sweden, Sveriges Riksbank
+Federal Reserve of the United States: Federal Reserve System, Federal Reserve of Boston, Federal Reserve of New York, Federal Reserve of Philadelphia, Federal Reserve of Cleveland, Federal Reserve of Richmond, Federal Reserve of Atlanta, Federal Reserve of Chicago, Federal Reserve of St. Louis, Federal Reserve of Minneapolis, Federal Reserve of Kansas City, Federal Reserve of Dallas, Federal Reserve of San Francisco
