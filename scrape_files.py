@@ -8,18 +8,23 @@ import argparse
 """
 TODO:
 - √ fetch ID of central banks from speech list page: https://www.bis.org/dcms/api/token_data/institutions.json?list=cbspeeches&theme=cbspeeches&
-- for repeated websracping: force refetch of last cached list file instead of most recent list on website
-- extract name from central bank info
+- √extract name from central bank info
 - √ subheading extraction
-- Deal with missing bank name matches
-- store meta data in JSONL file
+- Deal with missing bank name matches: 
+    - When two bank names are found, return correct name or error message
+    - √ Names that are found in the JSON data are not mapped correctly (line 3730)
+- Use hidden detail pages instead of direct links to PDF:
+    - example: https://www.bis.org/review/r130404b.pdf with as its overview page: https://www.bis.org/doclist/cbspeeches.htm?page=379&paging_length=25&sort_list=date_asc
+    - example of a hidden html site: https://www.bis.org/review/r130403a.htm
+    - write it up as an email to BIS
+- √ store meta data in JSONL file
+- for repeated websracping: force refetch of last cached list file instead of most recent list on website
 - make debug mode automatic/configurable
 - accept cache directory as argument
 - use url-lib to parse bank-ID url
 - resolve bank-ID into bank name
 - convert PDFs into txt files
 """
-
 
 CACHE_FOLDER = 'cache'
 
@@ -39,10 +44,55 @@ def fetch_bank_list():
     return banks_dict
 
 
-def find_bank_name(banks_dict, subheading):
-    for bank_name in banks_dict.values():
+def load_bank_name_mapping():
+    """
+    Reads bank name mapping file and returns a dict with 
+        key=variant.lower()
+        value=correct_  name
+    """
+    # """
+    # Reads bank name mapping file and returns a dict with 
+    #     key=correct_ name
+    #     value=[variant.lower()]
+    # """
+    mapping = {}
+    with open('list_of_missing_bank_names.txt') as f:
+        for line_no, line in enumerate(f.readlines()):
+            line = line.strip()
+            try:                
+                if line.startswith('#'):
+                    continue
+                correct_name, variants = line.split(': ')
+                variants = variants.split(', ')
+                # mapping[correct_name] = [var.lower() for var in variants]
+                for var in variants:
+                    mapping[var.lower()] = correct_name
+            except Exception as e:
+                raise Exception(f'Error while reading list_of_missing_bank_names.txt in line {line_no + 1}:', e)
+    return mapping
+
+
+def find_bank_name(banks_from_json, bank_name_mapping, subheading):
+    """
+    First search through all names in the JSON file retrieved from the website
+    If a match is found return mapped name else return the found one.
+
+    If no match is found, search through the variants in the manually defined mapping file.
+    If a match is found return mapped name.
+    """
+    for bank_name in banks_from_json.values():
         if bank_name.lower() in subheading.lower():
-            return bank_name
+            print('a', bank_name)
+            if bank_name.lower() in bank_name_mapping:
+                print('a1')
+                return bank_name_mapping[bank_name.lower()]
+            else:
+                print('a2')
+                return bank_name
+    
+    for bank_name in bank_name_mapping:
+        if bank_name in subheading.lower():
+            return bank_name_mapping[bank_name]
 
 
 def fetch_page_or_pdf(path, force_refetch=False):
@@ -125,7 +175,7 @@ def extract_pdf_path_from_speech_detail_html(html_code):
         return None, None
 
     a_tag_bank_id_link = relatedinfo_tag.find('a')
-
+    
     parts = a_tag_bank_id_link['href'].split('institutions=')
     bank_ID = int(parts[1]) if len(parts) > 1 else None
     path = a_tag['href']
@@ -163,29 +213,30 @@ def process_speech_lists(speeches_metadata, limit):
 
 
 def process_speech_detail_pages(speeches_metadata, errors, limit):
-    banks_dict = fetch_bank_list()
+    banks_from_json = fetch_bank_list()
+    bank_name_mapping = load_bank_name_mapping()
 
     for index, speech in enumerate(speeches_metadata):
         if limit is not None and limit not in speech['path']:
             continue
 
-        print(index)
+        print(index, speech['path'])
         if speech['path'].endswith('.pdf'):
             fetch_page_or_pdf(speech['path'])
-            speech['central_bank'] = find_bank_name(banks_dict, speech['subheading'])
+            speech['central_bank'] = find_bank_name(banks_from_json, bank_name_mapping, speech['subheading'])
         else:
             fetch_page_or_pdf(speech['path'])
             html_code = read_file_from_cache(speech['path'])
             path, bank_ID = extract_pdf_path_from_speech_detail_html(html_code)
 
             if bank_ID is None:
-                bank_ID = find_bank_name(banks_dict, speech['subheading'])
+                bank_ID = find_bank_name(banks_from_json, bank_name_mapping, speech['subheading'])
 
             if path is None:
                 errors.append('missing PDF link: ' + speech['path'])
             else:
                 fetch_page_or_pdf(path)
-                bank_name = banks_dict.get(bank_ID)
+                bank_name = banks_from_json.get(bank_ID)
                 speech['central_bank'] = bank_name
 
 
