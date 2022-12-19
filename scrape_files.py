@@ -3,6 +3,7 @@ import requests
 import pprint
 import os
 import json
+import argparse
 
 """
 TODO:
@@ -145,24 +146,29 @@ def fetch_list_page(page_number, force_refetch):
     return html_code
 
 
-def process_speech_lists(speeches_metadata):
+def process_speech_lists(speeches_metadata, limit):
     html_code = fetch_list_page(1, True)
     page_count = extract_total_page_count_from_speech_list_html(html_code)
 
     current_page = 1
     while True:
-        html_code = fetch_list_page(current_page, current_page == page_count)
-        speeches_metadata_of_current_page = extract_meta_data_from_speech_list_html(html_code)
-        speeches_metadata.extend(speeches_metadata_of_current_page)
+        if limit is None or current_page == limit:
+            html_code = fetch_list_page(current_page, current_page == page_count)
+            speeches_metadata_of_current_page = extract_meta_data_from_speech_list_html(html_code)
+            speeches_metadata.extend(speeches_metadata_of_current_page)
+
         if current_page >= page_count:
             break
         current_page += 1
 
 
-def process_speech_detail_pages(speeches_metadata, errors):
+def process_speech_detail_pages(speeches_metadata, errors, limit):
     banks_dict = fetch_bank_list()
 
     for index, speech in enumerate(speeches_metadata):
+        if limit is not None and limit not in speech['path']:
+            continue
+
         print(index)
         if speech['path'].endswith('.pdf'):
             fetch_page_or_pdf(speech['path'])
@@ -184,11 +190,25 @@ def process_speech_detail_pages(speeches_metadata, errors):
 
 
 def main():
+    parser = argparse.ArgumentParser(
+                    prog = 'TODO: ProgramName',
+                    description = 'TODO: What the program does',
+                    epilog = 'TODO: Text at the bottom of help')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--limit-list', type=int)
+    group.add_argument('--limit-detail')
+    args = parser.parse_args()
+    if args.limit_list:
+        print(f'Only processing list page {args.limit_list}')
+    if args.limit_detail:
+        print(f'Only processing detail page {args.limit_detail}')
+    
+
     speeches_metadata = []
     errors = []
 
-    process_speech_lists(speeches_metadata)
-    process_speech_detail_pages(speeches_metadata, errors)
+    process_speech_lists(speeches_metadata, limit=args.limit_list)
+    process_speech_detail_pages(speeches_metadata, errors, limit=args.limit_detail)
     
     with open('result.json', 'w') as f:
         json.dump(speeches_metadata, f, indent=4)
