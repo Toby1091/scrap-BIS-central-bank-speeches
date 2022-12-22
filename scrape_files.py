@@ -10,20 +10,20 @@ TODO:
 - √ fetch ID of central banks from speech list page: https://www.bis.org/dcms/api/token_data/institutions.json?list=cbspeeches&theme=cbspeeches&
 - √extract name from central bank info
 - √ subheading extraction
-- Deal with missing bank name matches: 
-    - When two bank names are found, return correct name or error message
-    - √ Names that are found in the JSON data are not mapped correctly (line 3730)
-- Use hidden detail pages instead of direct links to PDF:
-    - example: https://www.bis.org/review/r130404b.pdf with as its overview page: https://www.bis.org/doclist/cbspeeches.htm?page=379&paging_length=25&sort_list=date_asc
-    - example of a hidden html site: https://www.bis.org/review/r130403a.htm
-    - write it up as an email to BIS
 - √ store meta data in JSONL file
+- √ Use hidden detail pages instead of direct links to PDF:
+    - write it up as an email to BIS
+- Deal with missing bank name matches: 
+    (- When two bank names are found, return correct name or error message)
+    - √ Names that are found in the JSON data are not mapped correctly (line 3730)
+- √ make debug mode automatic/configurable
 - for repeated websracping: force refetch of last cached list file instead of most recent list on website
-- make debug mode automatic/configurable
 - accept cache directory as argument
 - use url-lib to parse bank-ID url
-- resolve bank-ID into bank name
 - convert PDFs into txt files
+- evaluate pdftotxt --layout and similar options
+- sanity check: do all list pages have 25 entries?
+- add path of list page to each metadata (json) entry
 """
 
 CACHE_FOLDER = 'cache'
@@ -160,16 +160,15 @@ def extract_pdf_path_from_speech_detail_html(html_code):
     a_tag = document.find('div', id='center').find('div', class_='pdftxt').find('a', class_='pdftitle_link')
     if a_tag is None:
         return None, None
+    path = a_tag['href']
 
     relatedinfo_tag = document.find('div', id='center').find('div', id='relatedinfo-div')
     if relatedinfo_tag is None:
-        return None, None
+        return path, None
 
     a_tag_bank_id_link = relatedinfo_tag.find('a')
-    
     parts = a_tag_bank_id_link['href'].split('institutions=')
     bank_ID = int(parts[1]) if len(parts) > 1 else None
-    path = a_tag['href']
 
     return path, bank_ID
 
