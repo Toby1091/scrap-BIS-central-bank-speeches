@@ -3,7 +3,6 @@ The script analyzes all files in this directory (i.e. a large data set of txt fi
 (url: https://www.bis.org/cbspeeches/index.htm). It computes a total count of each keyword of a list of keywords across all files.
 """
 
-
 # TODO: 
 # - make script insensitive to accents (using regular expressions), lower case etc.
 # - allow for small variation in order of words (e.g. labor market equilibrium vs. equilibrium in labor markets)
@@ -15,7 +14,7 @@ with open("list_of_keywords.txt") as file_handle:
 
 KEYWORDS = content.split('\n')
 
-speech_directory = 'txt'
+speech_directory = 'textified_pdfs'
 
 txt_file_names = os.listdir(speech_directory)
 
