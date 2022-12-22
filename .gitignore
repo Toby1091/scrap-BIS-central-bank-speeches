@@ -6,3 +6,5 @@ cache
 txt/
 .venv
 result.json
+textified_pdfs
+decrypted_pdfs
