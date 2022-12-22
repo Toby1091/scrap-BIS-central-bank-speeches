@@ -212,25 +212,23 @@ def process_speech_detail_pages(speeches_metadata, errors, limit):
             continue
 
         print(index, speech['path'])
-
-        modified_detail_page_path = speech['path']
-
-        if modified_detail_page_path.endswith('.pdf'):
-            modified_detail_page_path = modified_detail_page_path.replace('.pdf', '.htm')
-        
-        fetch_page_or_pdf(modified_detail_page_path)
-        html_code = read_file_from_cache(modified_detail_page_path)
-        pdf_path, bank_ID = extract_pdf_path_from_speech_detail_html(html_code)
-
-        if bank_ID is None:
-            bank_ID = find_bank_name(banks_from_json, bank_name_mapping, speech['subheading'])
-
-        if pdf_path is None:
-            errors.append('missing PDF link: ' + speech['path'])
+        if speech['path'].endswith('.pdf'):
+            fetch_page_or_pdf(speech['path'])
+            speech['central_bank'] = find_bank_name(banks_from_json, bank_name_mapping, speech['subheading'])
         else:
-            fetch_page_or_pdf(pdf_path)
-            bank_name = banks_from_json.get(bank_ID)
-            speech['central_bank'] = bank_name
+            fetch_page_or_pdf(speech['path'])
+            html_code = read_file_from_cache(speech['path'])
+            path, bank_ID = extract_pdf_path_from_speech_detail_html(html_code)
+
+            if bank_ID is None:
+                bank_ID = find_bank_name(banks_from_json, bank_name_mapping, speech['subheading'])
+
+            if path is None:
+                errors.append('missing PDF link: ' + speech['path'])
+            else:
+                fetch_page_or_pdf(path)
+                bank_name = banks_from_json.get(bank_ID)
+                speech['central_bank'] = bank_name
 
 
 def main():
