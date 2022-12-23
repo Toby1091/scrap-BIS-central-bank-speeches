@@ -1,10 +1,10 @@
 import requests
 import os
 
-CACHE_FOLDER = 'cache'
+import config
 
 def get_cache_path(path):
-    return os.path.join(CACHE_FOLDER, path.lstrip('/'))
+    return os.path.join(config.CACHE_DIR, path.lstrip('/'))
 
 
 def fetch_page_or_pdf(path, force_refetch=False):

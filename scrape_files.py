@@ -4,6 +4,7 @@ import argparse
 from bank_names import determine_bank_names
 import parse_html
 from cache import fetch_page_or_pdf, read_file_from_cache
+import config
 
 """
 TODO:
@@ -32,7 +33,7 @@ def fetch_list_page(page_number, force_refetch):
     # the contents of a certain page remain the same; new speeches_metadata will be added to the page with
     # the hightest number. This allows to easily cache results in have the script fetch only pages
     # that have been appended since the last run.
-    params = f'?page={page_number}&paging_length=25&sort_list=date_asc'
+    params = f'?page={page_number}&paging_length={config.PAGE_SIZE}&sort_list=date_asc'
     path = 'doclist/cbspeeches.htm' + params
 
     fetch_page_or_pdf(path, force_refetch)
@@ -99,7 +100,7 @@ def main():
     process_speech_detail_pages(speeches_metadata, errors, limit=args.limit_detail)
     determine_bank_names(speeches_metadata)
     
-    with open('result.json', 'w') as f:
+    with open(config.RESULT_FILE, 'w') as f:
         json.dump(speeches_metadata, f, indent=4)
     print('Error: ', errors)
 

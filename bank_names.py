@@ -1,5 +1,7 @@
 import requests
 
+import config
+
 
 def fetch_bank_list():
     response = requests.get('https://www.bis.org/dcms/api/token_data/institutions.json?list=cbspeeches&theme=cbspeeches&')
@@ -20,7 +22,7 @@ def load_bank_name_mapping():
         value=correct_  name
     """
     mapping = {}
-    with open('list_of_missing_bank_names.txt') as f:
+    with open(config.BANK_NAMES_FILE) as f:
         for line_no, line in enumerate(f.readlines()):
             line = line.strip()
             try:                
