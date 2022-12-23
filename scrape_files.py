@@ -129,7 +129,7 @@ def extract_subheading_from_speech_list_html(p_tags):
             if stripped_text:
                 return stripped_text
 
-def extract_meta_data_from_speech_list_html(html_code):
+def extract_meta_data_from_speech_list_html(html_code, page):
     document = BeautifulSoup(html_code, 'html.parser')
     doc_list = document.find('table', class_='documentList')
     rows = doc_list.find_all('tr')
@@ -143,10 +143,13 @@ def extract_meta_data_from_speech_list_html(html_code):
         p_tag_text = extract_subheading_from_speech_list_html(p_tags)
         a_tag = info_column.find('div', class_='title').find('a')
 
+        path = a_tag['href'].strip()
         speech_metadata = {
             'date': date_column.string.strip(),
             'title': a_tag.string.strip(),
-            'path': a_tag['href'].strip(),
+            'detail_path': path if path.endswith('.htm') else None,
+            'pdf_path': path if path.endswith('.pdf') else None,
+            'page': page,
             'subheading': p_tag_text
         }
         
@@ -194,7 +197,7 @@ def process_speech_lists(speeches_metadata, limit):
     while True:
         if limit is None or current_page == limit:
             html_code = fetch_list_page(current_page, current_page == page_count)
-            speeches_metadata_of_current_page = extract_meta_data_from_speech_list_html(html_code)
+            speeches_metadata_of_current_page = extract_meta_data_from_speech_list_html(html_code, current_page)
             speeches_metadata.extend(speeches_metadata_of_current_page)
 
         if current_page >= page_count:
@@ -207,25 +210,27 @@ def process_speech_detail_pages(speeches_metadata, errors, limit):
     bank_name_mapping = load_bank_name_mapping()
 
     for index, speech in enumerate(speeches_metadata):
-        if limit is not None and limit not in speech['path']:
+        if limit is not None and limit not in speech['pdf_path'] and limit not in speech['detail_path']:
             continue
 
-        print(index, speech['path'])
-        if speech['path'].endswith('.pdf'):
-            fetch_page_or_pdf(speech['path'])
+        print(index, speech['pdf_path'] or speech['detail_path'])
+        if speech['pdf_path']:
+            fetch_page_or_pdf(speech['pdf_path'])
             speech['central_bank'] = find_bank_name(banks_from_json, bank_name_mapping, speech['subheading'])
         else:
-            fetch_page_or_pdf(speech['path'])
-            html_code = read_file_from_cache(speech['path'])
-            path, bank_ID = extract_pdf_path_from_speech_detail_html(html_code)
+            fetch_page_or_pdf(speech['detail_path'])
+            html_code = read_file_from_cache(speech['detail_path'])
+            pdf_path, bank_ID = extract_pdf_path_from_speech_detail_html(html_code)
+            speech['pdf_path'] = pdf_path
+            speech['bank_ID'] = bank_ID
 
             if bank_ID is None:
                 bank_ID = find_bank_name(banks_from_json, bank_name_mapping, speech['subheading'])
 
-            if path is None:
-                errors.append('missing PDF link: ' + speech['path'])
+            if pdf_path is None:
+                errors.append('missing PDF link: ' + speech['detail_path'])
             else:
-                fetch_page_or_pdf(path)
+                fetch_page_or_pdf(pdf_path)
                 bank_name = banks_from_json.get(bank_ID)
                 speech['central_bank'] = bank_name
 
