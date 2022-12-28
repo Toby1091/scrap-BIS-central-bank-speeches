@@ -38,7 +38,7 @@ def load_bank_name_mapping():
     return mapping
 
 
-def find_bank_name(banks_from_json, bank_name_mapping, speech):
+def find_bank_names(banks_from_json, bank_name_mapping, speech):
     """
     First search through all names in the JSON file retrieved from the website
     If a match is found return mapped name else return the found one.
@@ -51,21 +51,26 @@ def find_bank_name(banks_from_json, bank_name_mapping, speech):
         bank_name = banks_from_json[speech['bank_ID']]
         if bank_name.lower() in bank_name_mapping:
             bank_name =  bank_name_mapping[bank_name.lower()]
-        return bank_name
+        return [bank_name]
 
     subheading = speech['subheading'].lower()
     
-    # Search bank names in https://www.bis.org/.../institutions.json
+    # Search bank names from https://www.bis.org/.../institutions.json in subheading
+    found_bank_names = []
     for bank_name in banks_from_json.values():
         if bank_name.lower() in subheading:
             if bank_name.lower() in bank_name_mapping:
                 bank_name = bank_name_mapping[bank_name.lower()]
-            return bank_name
-    
-    # Search bank names in list_of_missing_bank_names.txt
+            found_bank_names.append(bank_name)
+    if found_bank_names:
+        return found_bank_names
+
+    # Search bank names from list_of_missing_bank_names.txt in subheading
+    found_bank_names = []
     for bank_name in bank_name_mapping:
         if bank_name in subheading:
-            return bank_name_mapping[bank_name]
+            found_bank_names.append(bank_name_mapping[bank_name])
+    return found_bank_names
 
 
 def determine_bank_names(speeches_metadata):
@@ -73,7 +78,19 @@ def determine_bank_names(speeches_metadata):
     bank_name_mapping = load_bank_name_mapping()
 
     for speech in speeches_metadata:
-        speech['central_bank'] = find_bank_name(banks_from_json, bank_name_mapping, speech)
+        bank_names = find_bank_names(banks_from_json, bank_name_mapping, speech)
+
+        if len(bank_names) > 1:
+            # Looks like we've found a second bank name in the subheading.
+            # We cannot know which one is the right one, so let's rather return None
+            bank_name =  None
+        elif len(bank_names) > 0:
+            bank_name =  bank_names[0]
+        else:
+            bank_name = None
+
+        speech['bank_name'] = bank_name
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'Extends JSON with bank names derived from web and text file')
