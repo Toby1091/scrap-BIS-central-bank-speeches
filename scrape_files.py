@@ -18,7 +18,7 @@ TODO:
     (- When two bank names are found, return correct name or error message)
     - √ Names that are found in the JSON data are not mapped correctly (line 3730)
 - √ make debug mode automatic/configurable
-- for repeated websracping: force refetch of last cached list file instead of most recent list on website
+- √ for repeated websracping: force refetch of last cached list file instead of most recent list on website
 - accept cache directory as argument
 - use url-lib to parse bank-ID url
 - convert PDFs into txt files
@@ -48,8 +48,15 @@ def process_speech_lists(speeches_metadata, limit):
     current_page = 1
     while True:
         if limit is None or current_page == limit:
-            html_code = fetch_list_page(current_page, current_page == page_count)
+            html_code = fetch_list_page(current_page)
             speeches_metadata_of_current_page = parse_html.extract_meta_data_from_speech_list(html_code, current_page)
+
+            if len(speeches_metadata_of_current_page) < config.PAGE_SIZE:
+                # Looks like this is the latest list page which is still incomplete. Let's make sure we actually
+                # fetch this one, the cache might be stale.
+                html_code = fetch_list_page(current_page, True)
+                speeches_metadata_of_current_page = parse_html.extract_meta_data_from_speech_list(html_code, current_page)
+
             speeches_metadata.extend(speeches_metadata_of_current_page)
 
         if current_page >= page_count:
