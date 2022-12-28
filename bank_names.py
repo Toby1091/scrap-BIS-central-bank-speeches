@@ -1,6 +1,7 @@
 import requests
-
+import json
 import config
+import argparse
 
 
 def fetch_bank_list():
@@ -73,3 +74,13 @@ def determine_bank_names(speeches_metadata):
 
     for speech in speeches_metadata:
         speech['central_bank'] = find_bank_name(banks_from_json, bank_name_mapping, speech)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description = 'Extends JSON with bank names derived from web and text file')
+    parser.add_argument('input', help='JSON file to read from')
+    parser.add_argument('output', help='JSON file to write to')
+    args = parser.parse_args()
+
+    resultJson = json.load(open(args.input))
+    determine_bank_names(resultJson)
+    json.dump(resultJson, open(args.output, 'w'), indent=4)
