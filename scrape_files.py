@@ -24,7 +24,9 @@ TODO:
 - convert PDFs into txt files
 - evaluate pdftotxt --layout and similar options
 - sanity check: do all list pages have 25 entries?
-- add path of list page to each metadata (json) entry
+- √ add path of list page to each metadata (json) entry
+- enable allow_redirects=False
+- rename "cache" dir into www.bis.org
 """
 
 
