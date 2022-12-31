@@ -1,7 +1,9 @@
 import json
 import pprint
 
-with open("result.json") as file_handle:
+from config import RESULT_FILE
+
+with open(RESULT_FILE) as file_handle:
     speech_metadata = json.loads(file_handle.read())
 
 uncounted_cb_list = []
