@@ -2,13 +2,13 @@
 PAGE_SIZE = 25
 
 # Directory in which to store / cache downloaded files (will be written in)
-CACHE_DIR = 'output/cache'
+CACHE_DIR = 'output/www.bis.org'
 
 # Directory in which to store text files containing the content extracted from PDFs
 TXT_DIR = 'output/textified_pdfs'
 
 # JSON file with metadata about speeches extracted from HTML (will be created / overwritten)
-RESULT_FILE = 'output/result.json'
+RESULT_FILE = 'output/speech_metadata.json'
 
 # Text file that will be read with additional bank names and mapped bank names (will only be read)
 BANK_NAMES_FILE = 'input/list_of_missing_bank_names.txt'
