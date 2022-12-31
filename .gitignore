@@ -2,9 +2,7 @@ bin
 lib
 __pycache__
 .DS_Store
-cache
 txt/
 .venv
 result.json
-textified_pdfs
-decrypted_pdfs
+output
