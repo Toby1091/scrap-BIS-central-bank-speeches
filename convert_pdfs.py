@@ -2,9 +2,11 @@ import os
 import subprocess
 import glob
 
+from config import CACHE_DIR, TXT_DIR
+
 errors = []
-for filepath in glob.glob('cache/review/*.pdf'):
-    text_filepath = 'textified_pdfs/' + os.path.basename(filepath).replace('.pdf', '.txt')
+for filepath in glob.glob(os.path.join(CACHE_DIR, 'review/*.pdf')):
+    text_filepath = os.path.join(TXT_DIR, os.path.basename(filepath).replace('.pdf', '.txt'))
 
     if os.path.exists(text_filepath):
         print('Skip', filepath)

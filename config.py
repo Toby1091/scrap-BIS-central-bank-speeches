@@ -1,8 +1,11 @@
 # Page size when fetching speech lists from bis.org. Allowed values: 5, 10, 15, 20, 25
 PAGE_SIZE = 25
 
-# Directory which to store / cache downloaded files (will be written in)
+# Directory in which to store / cache downloaded files (will be written in)
 CACHE_DIR = 'cache'
+
+# Directory in which to store text files containing the content extracted from PDFs
+TXT_DIR = 'textified_pdfs'
 
 # JSON file with metadata about speeches extracted from HTML (will be created / overwritten)
 RESULT_FILE = 'result.json'
