@@ -50,7 +50,7 @@ def process_speech_lists(speeches_metadata, limit):
     current_page = 1
     while True:
         if limit is None or current_page == limit:
-            html_code = fetch_list_page(current_page)
+            html_code = fetch_list_page(current_page, False)
             speeches_metadata_of_current_page = parse_html.extract_meta_data_from_speech_list(html_code, current_page)
 
             if len(speeches_metadata_of_current_page) < config.PAGE_SIZE:
