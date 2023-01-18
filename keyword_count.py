@@ -27,7 +27,7 @@ for txt_file_name in txt_file_names:
     joined_file_path = os.path.join(TXT_DIR, txt_file_name) # function adds a / between the two arguments
     with open(joined_file_path) as file_handle: # this is where we actually open the file
 
-        content = file_handle.read().lower().replace('\n', '')
+        content = file_handle.read().lower().replace('\n', ' ')
 
     for keyword in KEYWORDS:
         keyword_count[keyword] = keyword_count[keyword] + content.count(keyword)
