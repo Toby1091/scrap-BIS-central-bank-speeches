@@ -2,6 +2,7 @@ import requests
 import json
 import config
 import argparse
+import functools
 
 
 def fetch_bank_list():
@@ -62,15 +63,17 @@ def find_bank_names(banks_from_json, bank_name_mapping, speech):
             if bank_name.lower() in bank_name_mapping:
                 bank_name = bank_name_mapping[bank_name.lower()]
             found_bank_names.append(bank_name)
-    if found_bank_names:
-        return found_bank_names
 
     # Search bank names from list_of_missing_bank_names.txt in subheading
-    found_bank_names = []
     for bank_name in bank_name_mapping:
         if bank_name in subheading:
             found_bank_names.append(bank_name_mapping[bank_name])
-    return found_bank_names
+
+    # Deduplicate: The name might have been found in the online json file _and_ in the local mapping file
+    # https://stackoverflow.com/questions/12897374/get-unique-values-from-a-list-in-python
+    deduped_bank_names = functools.reduce(lambda l, x: l.append(x) or l if x not in l else l, found_bank_names, [])
+
+    return deduped_bank_names
 
 
 def determine_bank_names(speeches_metadata):

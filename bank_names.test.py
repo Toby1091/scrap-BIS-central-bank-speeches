@@ -49,6 +49,12 @@ class TestFindBankNames(unittest.TestCase):
         expected = ['Bank C', 'Bank D']
         self.assertEqual(find_bank_names(banks_from_json, bank_name_mapping, speech), expected)
 
+    def test_find_multiple_in_banksFromJson_and_bankNameMapping_in_subheading(self):
+        # the subheading contains 2 bank names; one is found in banksFromJson and one in bankNameMapping
+        speech = {'subheading': 'xxx bank a yyy bank c zzz'}
+        expected = ['bank a', 'Bank C']
+        self.assertEqual(find_bank_names(banks_from_json, bank_name_mapping, speech), expected)
+
     def test_find_nothing(self):
         speech = {'subheading': 'asdf'}
         expected = []
