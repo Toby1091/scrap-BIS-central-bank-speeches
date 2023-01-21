@@ -25,6 +25,7 @@ TODO:
 - evaluate pdftotxt --layout and similar options
 - sanity check: do all list pages have 25 entries?
 - √ add path of list page to each metadata (json) entry
+- add link of list page to each metadata (json) entry and also for missing entries
 - enable allow_redirects=False
 - rename "cache" dir into www.bis.org
 """
@@ -36,7 +37,7 @@ def fetch_list_page(page_number, force_refetch):
     # the hightest number. This allows to easily cache results in have the script fetch only pages
     # that have been appended since the last run.
     params = f'?page={page_number}&paging_length={config.PAGE_SIZE}&sort_list=date_asc'
-    path = 'doclist/cbspeeches.htm' + params
+    path = 'doclist/cbspeeches.htm' + params # example link: https://www.bis.org/doclist/cbspeeches.htm?page=179&paging_length=25&sort_list=date_asc
 
     fetch_page_or_pdf(path, force_refetch)
     html_code = read_file_from_cache(path)
@@ -74,6 +75,7 @@ def process_speech_detail_pages(speeches_metadata, errors, limit):
         print(index, speech['pdf_path'] or speech['detail_path'])
         if speech['pdf_path']:
             fetch_page_or_pdf(speech['pdf_path'])
+            speech['bank_ID'] = None
         else:
             fetch_page_or_pdf(speech['detail_path'])
             html_code = read_file_from_cache(speech['detail_path'])
