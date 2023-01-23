@@ -9,4 +9,4 @@ count:
 analyse:
 	python speech_analysis.py
 test:
-	python bank_names.test.py && python utils.test.py
+	python -m unittest discover -p "*_test.py"
