@@ -2,7 +2,8 @@ import requests
 import json
 import config
 import argparse
-import functools
+
+from utils import reorder_found_strings
 
 
 def fetch_bank_list():
@@ -41,39 +42,42 @@ def load_bank_name_mapping():
 
 def find_bank_names(banks_from_json, bank_name_mapping, speech):
     """
-    First search through all names in the JSON file retrieved from the website
-    If a match is found return mapped name else return the found one.
+    First try to lookup the name by the bank_ID.
 
-    If no match is found, search through the variants in the manually defined mapping file.
-    If a match is found return mapped name.
+    Then search through all names in the JSON file retrieved from the website
+    and through the bank names defined in the mapping file.
+
+    @return: list of bank names ordered by the occurance in the subheading (if found in subheading)
     """
     # Derive speech from Bank ID
     if speech.get('bank_ID') is not None:
         bank_name = banks_from_json[speech['bank_ID']]
-        if bank_name.lower() in bank_name_mapping:
-            bank_name =  bank_name_mapping[bank_name.lower()]
         return [bank_name]
 
     subheading = speech['subheading'].lower()
     
     # Search bank names from https://www.bis.org/.../institutions.json in subheading
-    found_bank_names = []
+    found_bank_names = set()
     for bank_name in banks_from_json.values():
         if bank_name.lower() in subheading:
-            if bank_name.lower() in bank_name_mapping:
-                bank_name = bank_name_mapping[bank_name.lower()]
-            found_bank_names.append(bank_name)
+            found_bank_names.add(bank_name)
 
     # Search bank names from list_of_missing_bank_names.txt in subheading
     for bank_name in bank_name_mapping:
         if bank_name in subheading:
-            found_bank_names.append(bank_name_mapping[bank_name])
+            found_bank_names.add(bank_name)
 
-    # Deduplicate: The name might have been found in the online json file _and_ in the local mapping file
-    # https://stackoverflow.com/questions/12897374/get-unique-values-from-a-list-in-python
-    deduped_bank_names = functools.reduce(lambda l, x: l.append(x) or l if x not in l else l, found_bank_names, [])
 
-    return deduped_bank_names
+    return reorder_found_strings(found_bank_names, subheading)
+
+
+def map_bank_names(bank_names, bank_name_mapping):
+    return [
+        bank_name_mapping[bank_name.lower()]
+        if bank_name.lower() in bank_name_mapping
+        else bank_name
+        for bank_name in bank_names
+    ]
 
 
 def determine_bank_names(speeches_metadata):
@@ -82,13 +86,15 @@ def determine_bank_names(speeches_metadata):
 
     for speech in speeches_metadata:
         bank_names = find_bank_names(banks_from_json, bank_name_mapping, speech)
+        # ordered_bank_names = order_bank_names(bank_names, speech['subheading'])
+        mapped_bank_names=  map_bank_names(bank_names, bank_name_mapping)
 
-        if len(bank_names) > 1:
+        if len(mapped_bank_names) > 1:
             # Looks like we've found a second bank name in the subheading.
             # We cannot know which one is the right one, so let's rather return None
             bank_name =  None
-        elif len(bank_names) > 0:
-            bank_name =  bank_names[0]
+        elif len(mapped_bank_names) > 0:
+            bank_name =  mapped_bank_names[0]
         else:
             bank_name = None
 
