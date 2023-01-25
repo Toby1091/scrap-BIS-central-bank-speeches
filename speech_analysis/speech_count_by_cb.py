@@ -23,6 +23,3 @@ for dict in speech_metadata:
 
 pprint.pprint(cb_count_dict)
 
-# Create a list of dictionaries. Each central bank gets one dictionary. Key-value pairs are: cb name, total number of speeches, 
-# and then for each keyword a key-value pair
-# it should look like this name_of_cb = [{'total_number_speeches: ': cb_count_dict}, {keyword1: count}, {keyword2: count}]

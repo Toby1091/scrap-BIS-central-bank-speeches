@@ -2,38 +2,54 @@ natural rate
 natural level
 natural rate of unemployment
 natural unemployment rate
+equilibrium rate of unemployment
+labor market equilibrium
+long-term rate of unemployment
+long-term unemployment rate
 u*
-N*
+n*
 nairu
-Niru
+niru
 nawru
 non-accelerating inflation rate of unemployment
 noncyclical rate of unemployment
 non-cyclical rate of unemployment
+non cyclical unemployment rate
+non-cyclical unemployment rate
+cyclically-adjusted rate of unemployment
+cyclically-adjusted unemployment rate
 structural level of unemployment
 structural rate of unemployment
 structural unemployment
 natural rate of interest
 natural interest rate
+neutral rate of interest
+neutral interest rate
+neutral real interest rate
+neutral real rate of interest
+equilibrium real rate of interest
 r*
+long-term rate of interest
+long-run rate of interest
+Wicksellian equilibrium
+Wicksellian rate
+Wicksellian natural
+equilibrium rate
+cyclically-adjusted rate of interest
+short-term real interest rate
+output gap
+natural rate of growth
+cyclically-adjusted rate of growth
+non cyclical growth rate
+non-cyclical rate of growth
+structural growth rate
 potential output
 potential growth
 potential GDP
-Y*
+y*
 trend growth
 Equilibrium growth
-long-term rate of
-long-run rate of
-neutral rate of interest
-neutral interest rate
-neutral real interest rate 
-equilibrium real rate of interest
-equilibrium rate of unemployment
-Wicksellian equilibrium
-equilibrium rate
-short-term real interest rate
-output gap
-labor market equilibrium
+
 
 tasa natural
 nivel natural
@@ -50,7 +66,6 @@ producto potencial
 crecimiento potencial
 potencial de producción
 PIB potentical
-Y*
 tasas de crecimiento tendencial 
 crecimiento a largo plazo
 tasa de largo plazo de

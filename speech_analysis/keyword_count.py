@@ -8,7 +8,9 @@ from config import KEYWORDS_FILE, TXT_DIR
 # TODO: 
 # - make script insensitive to accents (using regular expressions), lower case etc.
 # - allow for small variation in order of words (e.g. labor market equilibrium vs. equilibrium in labor markets)
-# Lemmatization/stemming: https://towardsai.net/p/data-mining/text-mining-in-python-steps-and-examples-78b3f8fd913b#:~:text=than%20Porter%20stemmer.-,Lemmatization,-In%20simpler%20terms
+# - Lemmatization/stemming: https://towardsai.net/p/data-mining/text-mining-in-python-steps-and-examples-78b3f8fd913b#:~:text=than%20Porter%20stemmer.-,Lemmatization,-In%20simpler%20terms
+# - implement a switch to count only keywords where count > 10
+
 import os
 
 with open(KEYWORDS_FILE) as file_handle:
@@ -32,12 +34,18 @@ for txt_file_name in txt_file_names:
     for keyword in KEYWORDS:
         keyword_count[keyword] = keyword_count[keyword] + content.count(keyword)
 
-for keyword in keyword_count:
-    print(keyword, ":", keyword_count[keyword])
+for keyword in keyword_count: 
+    if keyword_count[keyword] > 10: # This is a switch to only print keywords that occur more than 10 times
+        print(keyword, ":", keyword_count[keyword])
 
 total_count = 0
 
 for keyword in keyword_count:
     total_count += keyword_count[keyword] #This is a shortcut total_count = total_count + keyword_count_dict[dict_entry]
 
-print('Total count: ', total_count)
+# print('Total count: ', total_count)
+# print()
+# print()
+# print(repr(keyword_count))
+# print(type(keyword_count))
+# print(keyword_count)
