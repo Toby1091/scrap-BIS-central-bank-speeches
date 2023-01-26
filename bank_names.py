@@ -91,8 +91,8 @@ def determine_bank_names(speeches_metadata):
 
         if len(mapped_bank_names) > 1:
             # Looks like we've found a second bank name in the subheading.
-            # We cannot know which one is the right one, so let's rather return None
-            bank_name =  None
+            # We cannot know which one is the right one, but we assume it's the first
+            bank_name =  mapped_bank_names[0]
         elif len(mapped_bank_names) > 0:
             bank_name =  mapped_bank_names[0]
         else:
