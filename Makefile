@@ -24,5 +24,11 @@ count:
 aggregate:
 	python speech_analysis/analysis_by_cb.py
 
+# Write aggregated keyword counts to various csv files
+# - Reads: output/keyword_by_bank.json, speech_analysis/list_of_keywords.txt
+# - Writes: output/keyword_by_speech_all.csv, output/csv_per_bank, output/csv_per_keyword
+export_csv:
+	python speech_analysis/export_csv.py
+
 test:
 	python -m unittest discover -p "*_test.py"
