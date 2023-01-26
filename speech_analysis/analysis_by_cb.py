@@ -28,11 +28,35 @@ for speech_dict in speech_metadata:
         existing_individual_cb_dict = cb_list[cb_name_from_json] # Look for inner dict in cb_list
         existing_individual_cb_dict['total_count_speeches'] += 1 # Increment value in inner dict
 
-    for key in keywords_by_speech_json.keys():
-        path = '/review/' + key
+# TODO: Extract into separate function
+for speech_dict in speech_metadata:
+    if speech_dict['pdf_path'] is None:
+        # Some speeches don't have a pdf on the website
+        continue
 
-        if path == speech_dict['pdf_path']:
-            cb_list['keywords'] = keywords_by_speech_json[key]
+    # /review/r200924a.pdf --> r200924a
+    speech_ID = speech_dict['pdf_path'].replace('/review/', '').replace('.pdf', '')
+
+    cb_name_from_json = speech_dict['bank_name']
+    if cb_name_from_json is None:
+        # For some speeches we don't know the bank name
+        continue
+
+    keywords_source = keywords_by_speech_json.get(speech_ID + '.txt')
+    if not keywords_source:
+        # TODO: Looks like some speeches don't have a txt file. Why?
+        print('Text file missing:', speech_ID + '.txt')
+        continue
+
+    keywords_target = cb_list[cb_name_from_json].setdefault('keywords', {})
+    for keyword, count in keywords_by_speech_json[speech_ID + '.txt'].items():
+        keywords_target.setdefault(keyword, 0)
+        keywords_target[keyword] += count
+
+with open('output/keyword_by_bank.json', 'w') as f:
+    json.dump(cb_list, f, indent=4)
+
+
 
 # for each speech_dict in speech_metadata, find corresponding dict in keyword_by_speech_output and add this dict 
 # as a new item to the innerdict of cb_list, that is, a new item of new_individual_cb_dict
