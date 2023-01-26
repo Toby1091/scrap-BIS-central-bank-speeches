@@ -13,10 +13,9 @@ The script analyzes all files in this directory (i.e. a large data set of txt fi
 import os
 import json
 
-with open('speech_analysis/list_of_keywords.txt') as file_handle:
-    content = file_handle.read()
+import helpers
 
-KEYWORDS = [s for s in content.split('\n') if s]
+KEYWORDS = helpers.read_keywords_file()
 
 txt_file_names = os.listdir('output/textified_pdfs')
 
