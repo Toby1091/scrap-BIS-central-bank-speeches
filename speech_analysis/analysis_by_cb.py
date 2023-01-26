@@ -43,13 +43,13 @@ for speech_dict in speech_metadata:
         continue
 
     keywords_source = keywords_by_speech_json.get(speech_ID + '.txt')
-    if not keywords_source:
+    if keywords_source is None:
         # TODO: Looks like some speeches don't have a txt file. Why?
         print('Text file missing:', speech_ID + '.txt')
         continue
 
-    keywords_target = cb_list[cb_name_from_json].setdefault('keywords', {})
-    for keyword, count in keywords_by_speech_json[speech_ID + '.txt'].items():
+    keywords_target = cb_list[cb_name_from_json].setdefault('keywords', {}) # first check if key is in the dict and if not create default key; then return value of this key
+    for keyword, count in keywords_source.items():
         keywords_target.setdefault(keyword, 0)
         keywords_target[keyword] += count
 
@@ -65,15 +65,13 @@ with open('output/keyword_by_bank.json', 'w') as f:
 
 
 
-pprint.pprint(cb_list)
-
 # for cb_name_from_json in cb_list:
 #     if cb_list[cb_name_from_json]['total_count_speeches'] > 10:
 #         print(cb_name_from_json + ':', cb_list[cb_name_from_json]['total_count_speeches'])
 
 
 
-# cb_list = [
+# cb_list = 
 # {
 #     'cb_name': 'Bank of Canada', 
 #     'total_count_speeches': 50, 
