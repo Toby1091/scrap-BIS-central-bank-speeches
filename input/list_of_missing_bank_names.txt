@@ -1,4 +1,115 @@
 # Correct bank name: variant 1, variant 2
-Central bank of Austria: Central Bank of the Republic of Austria, National Bank of the Republic of Austria
-Central bank of Sweden: Central Bank of Sweden, Sveriges Riksbank
-Federal Reserve of the United States: Federal Reserve System, Federal Reserve of Boston, Federal Reserve of New York, Federal Reserve of Philadelphia, Federal Reserve of Cleveland, Federal Reserve of Richmond, Federal Reserve of Atlanta, Federal Reserve of Chicago, Federal Reserve of St. Louis, Federal Reserve of Minneapolis, Federal Reserve of Kansas City, Federal Reserve of Dallas, Federal Reserve of San Francisco
+
+The People's Bank of China
+Banco de Portugal
+Bank Al-Maghrib (Central Bank of Morocco)
+Bank Indonesia
+Bank for International Settlements
+Bank of Albania
+Bank of Algeria
+Bank of Botswana
+Bank of Canada
+Bank of England
+Bank of Estonia
+Bank of Finland
+Central Bank of France: Central Bank of France, Bank of France, Banque de France
+Bank of Ghana
+Bank of Greece
+Bank of Guatemala
+Bank of Guyana
+Bank of Israel
+Bank of Italy
+Bank of Jamaica
+Bank of Japan
+Bank of Korea
+Bank of Latvia
+Bank of Lithuania
+Bank of Mauritius
+Bank of Mexico
+Bank of Mozambique
+Bank of Namibia
+Bank of Papua New Guinea
+Bank of Sierra Leone
+Bank of Slovenia
+Bank of Spain: Bank of Spain, Banco de España
+Bank of Tanzania
+Bank of Thailand
+Bank of Uganda
+Bank of Zambia
+Bulgarian National Bank
+Central Bank of Argentina
+Central Bank of Aruba
+Central bank of Austria: Central bank of Austria, Central Bank of the Republic of Austria, National Bank of the Republic of Austria, Austrian National Bank, Oesterreichische Nationalbank
+Central Bank of Bahrain
+Central Bank of Barbados
+Central Bank of Belize
+Central Bank of Bolivia
+Central Bank of Bosnia and Herzegovina
+Central Bank of Brazil
+Central Bank of Chile
+Central Bank of Colombia
+Central Bank of Curaçao and Sint Maarten
+Central Bank of Cyprus
+Central Bank of Iceland
+Central Bank of Ireland
+Central Bank of Jordan
+Central Bank of Kenya
+Central Bank of Kuwait
+Central Bank of Luxembourg
+Central Bank of Malaysia: Central Bank of Malaysia, Bank Negara Malaysia
+Central Bank of Malta
+Central Bank of Nepal (Nepal Rastra Bank)
+Central Bank of Nigeria
+Central Bank of Norway: Norges Bank
+Central Bank of Samoa
+Central Bank of Seychelles
+Central Bank of Solomon Islands
+Central Bank of Sri Lanka
+Central bank of Sweden: Central Bank of Sweden, Sveriges Riksbank, Swedish Central Bank, Bank of Sweden
+Central Bank of Switzerland: Swiss National Bank, Banque nationale suisse
+Central Bank of The Bahamas
+Central Bank of Trinidad and Tobago
+Central Bank of Uruguay
+Central Bank of the Philippines (Bangko Sentral ng Pilipinas)
+Central Bank of the Republic of Kosovo
+Central Bank of the Republic of Turkey: Central Bank of the Republic of Turkey, Central Bank of the Republic of Türkiye
+Central Bank of the Russian Federation
+Central Bank of the United Arab Emirates
+Croatian National Bank
+Czech National Bank
+Danmarks National Bank: Danmarks National Bank, Danmarks Nationalbank
+Deutsche Bundesbank
+Eastern Caribbean Central Bank
+European Central Bank
+European Commission
+European Monetary Institute
+Federal Reserve of the United States: Federal Reserve of the United States, Federal Reserve System, Federal Reserve Board, US Federal Reserve, Board of Governors of the Federal Reserve System, Federal Reserve of Boston, Federal Reserve of New York, Federal Reserve of Philadelphia, Federal Reserve of Cleveland, Federal Reserve of Richmond, Federal Reserve of Atlanta, Federal Reserve of Chicago, Federal Reserve of St. Louis, Federal Reserve of Minneapolis, Federal Reserve of Kansas City, Federal Reserve of Dallas, Federal Reserve of San Francisco
+Hong Kong Monetary Authority
+Hong Kong Monetary Institute
+International Monetary Fund
+Magyar Nemzeti Bank
+Maldives Monetary Authority
+Monetary Authority of Macao
+Monetary Authority of Singapore
+National Bank of Belgium
+National Bank of Cambodia
+National Bank of Romania
+National Bank of Serbia
+National Bank of Slovakia
+National Bank of Ukraine
+National Bank of the Republic of Austria
+National Bank of the Republic of Macedonia: National Bank of the Republic of Macedonia, National Bank of the Republic of North Macedonia
+Nederlandsche Bank: Nederlandsche Bank, Netherlands Bank
+Reserve Bank of Australia: Reserve Bank of Australia, Australian Reserve Bank
+Reserve Bank of Fiji
+Reserve Bank of India
+Reserve Bank of Malawi
+Reserve Bank of New Zealand: Reserve Bank of New Zealand, Reserve of the Bank of New Zealand
+Reserve Bank of South Africa
+Reserve Bank of Vanuatu
+Saudi Central Bank
+South African Reserve Bank
+State Bank of Pakistan
+Swiss Federal Banking Commission
+United Nations Secretay-General's Special Advocate for Inclusive Finance for Development
+Universidad de Chile
