@@ -1,7 +1,6 @@
 import json
 import argparse
 
-from bank_names import determine_bank_names
 import parse_html
 from cache import fetch_page_or_pdf, read_file_from_cache
 import config
@@ -26,6 +25,7 @@ TODO:
 - sanity check: do all list pages have 25 entries?
 - √ add path of list page to each metadata (json) entry
 - add link of list page to each metadata (json) entry and also for missing entries
+
 - enable allow_redirects=False
 - rename "cache" dir into www.bis.org
 """
@@ -109,7 +109,6 @@ def main():
 
     process_speech_lists(speeches_metadata, limit=args.limit_list)
     process_speech_detail_pages(speeches_metadata, errors, limit=args.limit_detail)
-    determine_bank_names(speeches_metadata)
     
     with open(config.RESULT_FILE, 'w') as f:
         json.dump(speeches_metadata, f, indent=4)

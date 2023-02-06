@@ -6,6 +6,13 @@ init:
 scrape:
 	python scrape_files.py
 
+# Extend speech_metadata.json with of bank names
+# - Reads: output/speech_metadata.json
+# - Writes: output/speech_metadata.json
+bank_names:
+	python bank_names.py output/speech_metadata.json output/speech_metadata.json
+
+
 # Convert PDFs to text files
 # - Reads: output/www.bis.org/review/*.pdf
 # - Writes: output/textified_pdfs
