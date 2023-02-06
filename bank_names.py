@@ -29,10 +29,17 @@ def load_bank_name_mapping():
         for line_no, line in enumerate(f.readlines()):
             line = line.strip()
             try:                
-                if line.startswith('#'):
+                if line.startswith('#') or not line:
                     continue
-                correct_name, variants = line.split(': ')
-                variants = variants.split(', ')
+
+                splitted = line.split(': ')
+                if len(splitted) == 1:
+                    correct_name = line
+                    variants = [line]
+                else:
+                    correct_name, variants = splitted
+                    variants = variants.split(', ')
+
                 for var in variants:
                     mapping[var.lower()] = correct_name
             except Exception as e:
