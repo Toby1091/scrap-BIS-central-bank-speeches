@@ -17,14 +17,18 @@ import helpers
 
 KEYWORDS = helpers.read_keywords_file()
 
-txt_file_names = os.listdir('output/textified_pdfs')
+with open('output/speech_metadata.json') as file_handle:
+    speech_metadata = json.loads(file_handle.read())
 
 keyword_count_by_speech = {}
 
-for txt_file_name in txt_file_names: 
+for speech_info in speech_metadata:
+    if not speech_info['pdf_path']:
+        continue
+    txt_file_name = speech_info['pdf_path'].split('/')[2].replace('.pdf', '.txt')
     joined_file_path = os.path.join('output/textified_pdfs', txt_file_name) # function adds a / between the two arguments
     with open(joined_file_path) as file_handle: # this is where we actually open the file
-
+        
         content = file_handle.read().lower().replace('\n', ' ')
 
     keywords = {}
@@ -38,3 +42,14 @@ for txt_file_name in txt_file_names:
 
 with open('output/keyword_by_speech_output.json', 'w') as f:
     json.dump(keyword_count_by_speech, f, indent=4)
+
+keyword_totals = {}
+for speech in keyword_count_by_speech.values():
+    for keyword, count in speech.items():
+        if keyword in keyword_totals:
+            keyword_totals[keyword] += count
+        else:
+            keyword_totals[keyword] = count
+
+for keyword in keyword_totals:
+    print(keyword, ':', keyword_totals[keyword])
