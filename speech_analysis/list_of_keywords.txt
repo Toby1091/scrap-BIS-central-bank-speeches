@@ -3,9 +3,11 @@ natural level
 natural rate of unemployment
 natural unemployment rate
 equilibrium rate of unemployment
+equilibrium unemployment rate
 labor market equilibrium
 long-term rate of unemployment
 long-term unemployment rate
+sustainable rate of unemployment
 u*
 n*
 nairu
@@ -26,8 +28,9 @@ natural interest rate
 neutral rate of interest
 neutral interest rate
 neutral real interest rate
-neutral real rate of interest
+neutral real rate
 equilibrium real rate of interest
+equilibrium real federal funds rate
 r*
 long-term rate of interest
 long-run rate of interest
@@ -35,6 +38,7 @@ Wicksellian equilibrium
 Wicksellian rate
 Wicksellian natural
 equilibrium rate
+equilibrium interest rate
 cyclically-adjusted rate of interest
 short-term real interest rate
 output gap
@@ -46,6 +50,10 @@ structural growth rate
 potential output
 potential growth
 potential GDP
+sustainable rate of growth
+equilibrium growth rate
+equilibrium rate of growth
+natural rate of capacity utilization
 y*
 trend growth
 equilibrium growth
