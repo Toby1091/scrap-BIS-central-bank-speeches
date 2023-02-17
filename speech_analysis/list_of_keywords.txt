@@ -1,13 +1,32 @@
-natural rate
-natural level
 natural rate of unemployment
+natural level of unemployment
 natural unemployment rate
+natural unemployment level
 equilibrium rate of unemployment
+equilibrium level of unemployment
 equilibrium unemployment rate
+equilibrium unemployment level
+rate of unemployment in equilibrium
+level of unemployment in equilibrium
+steady-state rate of unemployment
+steady-state level of unemployment
+steady-state unemployment rate
+steady-state unemployment level
+steady state rate of unemployment
+steady state level of unemployment
+steady state unemployment rate
+steady state unemployment level
+rate of unemployment in the steady-state
+level of unemployment in the steady-state
+rate of unemployment in the steady state
+level of unemployment in the steady state
 labor market equilibrium
 long-term rate of unemployment
+long-term level of unemployment
 long-term unemployment rate
+long-term unemployment level
 sustainable rate of unemployment
+sustainable level of unemployment
 u*
 n*
 nairu
@@ -15,34 +34,58 @@ niru
 nawru
 non-accelerating inflation rate of unemployment
 noncyclical rate of unemployment
+noncyclical level of unemployment
 non-cyclical rate of unemployment
+non-cyclical level of unemployment
 non cyclical unemployment rate
+non cyclical unemployment level
 non-cyclical unemployment rate
+non-cyclical unemployment level
 cyclically-adjusted rate of unemployment
+cyclically-adjusted level of unemployment
 cyclically-adjusted unemployment rate
-structural level of unemployment
+cyclically-adjusted unemployment level
 structural rate of unemployment
+structural level of unemployment
 structural unemployment
 natural rate of interest
+natural level of interest
 natural interest rate
 neutral rate of interest
 neutral interest rate
 neutral real interest rate
 neutral real rate
+steady-state rate of interest
+steady-state level of interest
+steady-state interest rate
+steady-state interest level
+steady state rate of interest
+steady state level of interest
+steady state interest rate
+steady state interest level
+equilibrium rate of interest
 equilibrium real rate of interest
 equilibrium real federal funds rate
+equilibrium level of interest rate
+rate of interest in equilibrium
+level of interest in equilibrium
+rate of interest in the steady-state
+level of interest in the steady-state
+rate of interest in the steady state
+level of interest in the steady state
 r*
-long-term rate of interest
 long-run rate of interest
+long run rate of interest
 Wicksellian equilibrium
 Wicksellian rate
 Wicksellian natural
-equilibrium rate
-equilibrium interest rate
 cyclically-adjusted rate of interest
 short-term real interest rate
 output gap
 natural rate of growth
+natural rate of output
+natural level of growth
+natural level of output
 cyclically-adjusted rate of growth
 non cyclical growth rate
 non-cyclical rate of growth
@@ -56,7 +99,12 @@ equilibrium rate of growth
 natural rate of capacity utilization
 y*
 trend growth
+trend of growth
+growth trend
+rate of growth of output in the long-run
+Long-run rate of growth of output
 equilibrium growth
+equilibrium output
 money neutrality
 money is neutral
 neutrality of money
