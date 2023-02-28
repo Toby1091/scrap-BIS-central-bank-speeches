@@ -42,16 +42,19 @@ for speech_dict in speech_metadata:
         # For some speeches we don't know the bank name
         continue
 
-    keywords_source = keywords_by_speech_json.get(speech_ID + '.txt')
-    if keywords_source is None:
+    word_and_keyword_count = keywords_by_speech_json.get(speech_ID + '.txt')
+    if word_and_keyword_count is None:
         # TODO: Looks like some speeches don't have a txt file. Why?
         print('Text file missing:', speech_ID + '.txt')
         continue
 
     keywords_target = cb_list[cb_name_from_json].setdefault('keywords', {}) # first check if key is in the dict and if not create default key; then return value of this key
-    for keyword, count in keywords_source.items():
+    for keyword, count in word_and_keyword_count['keyword_counts'].items():
         keywords_target.setdefault(keyword, 0)
         keywords_target[keyword] += count
+
+    cb_list[cb_name_from_json].setdefault('total_word_count', 0)
+    cb_list[cb_name_from_json]['total_word_count'] += word_and_keyword_count['total_word_count']
 
 with open('output/keyword_by_bank.json', 'w') as f:
     json.dump(cb_list, f, indent=4)

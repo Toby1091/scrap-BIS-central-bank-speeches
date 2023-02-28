@@ -38,7 +38,10 @@ for speech_info in speech_metadata:
         if count > 0:
             keywords[keyword] = count
 
-    keyword_count_by_speech[txt_file_name] = keywords
+    keyword_count_by_speech[txt_file_name] = {
+        'keyword_counts': keywords,
+        'total_word_count': len(content.split())
+    }
 
 with open('output/keyword_by_speech_output.json', 'w') as f:
     json.dump(keyword_count_by_speech, f, indent=4)
