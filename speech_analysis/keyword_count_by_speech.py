@@ -42,14 +42,3 @@ for speech_info in speech_metadata:
 
 with open('output/keyword_by_speech_output.json', 'w') as f:
     json.dump(keyword_count_by_speech, f, indent=4)
-
-keyword_totals = {}
-for speech in keyword_count_by_speech.values():
-    for keyword, count in speech.items():
-        if keyword in keyword_totals:
-            keyword_totals[keyword] += count
-        else:
-            keyword_totals[keyword] = count
-
-for keyword in keyword_totals:
-    print(keyword, ':', keyword_totals[keyword])
