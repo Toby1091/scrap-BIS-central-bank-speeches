@@ -14,7 +14,7 @@ def export_as_one_csv():
 
     with open('output/keyword_by_speech_all.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
-        headers = ['bank', 'speech count']
+        headers = ['bank', 'speech count', 'total word count']
         headers.extend(keywords)
         writer.writerow(headers)
 
@@ -24,7 +24,8 @@ def export_as_one_csv():
 
             row = [
                 bank_info['cb_name'], 
-                bank_info['total_count_speeches']
+                bank_info['total_count_speeches'],
+                bank_info['total_word_count']
             ]
             for keyword in keywords:    
                 row.append(bank_info['keywords'].get(keyword, ''))
