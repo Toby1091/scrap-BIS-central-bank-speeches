@@ -2,12 +2,13 @@ natural rate of unemployment
 natural level of unemployment
 natural unemployment rate
 natural unemployment level
-equilibrium rate of unemployment
 equilibrium level of unemployment
 equilibrium unemployment rate
 equilibrium unemployment level
 rate of unemployment in equilibrium
 level of unemployment in equilibrium
+full employment unemployment rate
+full employment rate of unemployment
 steady-state rate of unemployment
 steady-state level of unemployment
 steady-state unemployment rate
@@ -55,6 +56,9 @@ neutral rate of interest
 neutral interest rate
 neutral real interest rate
 neutral real rate
+natural real rate
+equilibrium rate
+terminal rate
 steady-state rate of interest
 steady-state level of interest
 steady-state interest rate
@@ -63,8 +67,8 @@ steady state rate of interest
 steady state level of interest
 steady state interest rate
 steady state interest level
-equilibrium rate of interest
-equilibrium real rate of interest
+equilibrium real exchange rate 
+equilibrium real rate
 equilibrium real federal funds rate
 equilibrium level of interest rate
 rate of interest in equilibrium
@@ -74,6 +78,8 @@ level of interest in the steady-state
 rate of interest in the steady state
 level of interest in the steady state
 r*
+predicted average real short-term rate
+forecast average real short-term rate
 long-run rate of interest
 long run rate of interest
 Wicksellian equilibrium
@@ -95,14 +101,12 @@ potential growth
 potential GDP
 sustainable rate of growth
 equilibrium growth rate
-equilibrium rate of growth
 natural rate of capacity utilization
 y*
 trend growth
 trend of growth
 growth trend
 rate of growth of output in the long-run
-Long-run rate of growth of output
 equilibrium growth
 equilibrium output
 money neutrality
