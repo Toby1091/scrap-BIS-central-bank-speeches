@@ -1,11 +1,10 @@
-# Correct bank name: variant 1, variant 2
-Miscellaneous (not central banks): Superintendent of Financial Institutions, Financial Services Authority, Saudi Arabian Monetary Agency, Bahrain Monetary Agency, Mon. Authority of Macao, Cayman Islands Monetary Authority, Ishrat Husain, Speech by Mr Martin Feldstein
+# supplemented my list of names with this list: https://www.science.co.il/economics/Central-banks.php
 
-The People's Bank of China: The People's Bank of China, People¿s Bank of China, Peoples Bank of China
-Banco de Portugal: Banco de Portugal, Bank of Portugal
+# Correct bank name: variant 1, variant 2
+Banco de Portugal: Banco de Portugal, Bank of Portugal, Banco Central de Portugal
 Bank Al-Maghrib (Central Bank of Morocco)
-Bank Indonesia: Bank Indonesia, Bank of Indonesia
 Bank for International Settlements
+Bank Indonesia: Bank Indonesia, Bank of Indonesia
 Bank of Albania
 Bank of Algeria
 Bank of Botswana
@@ -13,7 +12,6 @@ Bank of Canada
 Bank of England
 Bank of Estonia
 Bank of Finland: Bank of Finland
-Central Bank of France: Central Bank of France, Bank of France, Banque de France, Banque of France
 Bank of Ghana
 Bank of Greece
 Bank of Guatemala
@@ -37,12 +35,14 @@ Bank of Tanzania
 Bank of Thailand
 Bank of Uganda: Bank of the Uganda
 Bank of Zambia
+Bermuda Monetary Authority
 Bulgarian National Bank
 Central Bank of Argentina
 Central Bank of Armenia: Central Bank of Armenia
 Central Bank of Aruba
 Central bank of Austria: Central bank of Austria, Central Bank of the Republic of Austria, Austrian Nationalbank, National Bank of the Republic of Austria, Austrian National Bank, Oesterreichische Nationalbank
 Central Bank of Bahrain
+Central Bank of Bangladesh
 Central Bank of Barbados
 Central Bank of Belize
 Central Bank of Bolivia
@@ -50,10 +50,11 @@ Central Bank of Bosnia and Herzegovina
 Central Bank of Brazil
 Central Bank of Chile
 Central Bank of Colombia: Central Bank of Colombia, Governor of Banco de la República, Speech by Mr Carlos Gustavo Cano
+Central Bank of Costa Rica
 Central Bank of Curaçao and Sint Maarten: Central Bank of Curaçao and Sint Maarten, Central Bank of Curacao and Sint Maarten
 Central Bank of Cyprus
 Central Bank of Ecuador: Central Bank of Ecuador
-Central Bank of The Gambia: Central Bank of The Gambia
+Central Bank of France: Central Bank of France, Bank of France, Banque de France, Banque of France
 Central Bank of Iceland
 Central Bank of Ireland: Central Bank of Ireland, Central Bank and Financial Services Authority of Ireland, Central Bank &Financial Services Authority of Ireland, Central Bank & Fin. Serv. Authority of Ireland, Central Bank & Financial Services Authority of Ireland
 Central Bank of Jordan
@@ -62,11 +63,11 @@ Central Bank of Kuwait
 Central Bank of Luxembourg
 Central Bank of Malaysia: Central Bank of Malaysia, Bank Negara Malaysia, Bank of Malaysia, CB of Malaysia
 Central Bank of Malta
-Central Bank okf Dutch Antilles: Central Bank okf Dutch Antilles, Bank van de Nederlandse Antillen, Bank of the Netherlands Antilles
 Central Bank of Nepal (Nepal Rastra Bank): Central Bank of Nepal
 Central Bank of Nigeria
 Central Bank of Norway: Norges Bank
 Central Bank of Poland: Central Bank of Poland, National Bank of Poland, Natl. Bank of Poland
+Central Bank of Russia: Central Bank of Russia, Central Bank of the Russian Federation, Bank of Russia
 Central Bank of Samoa
 Central Bank of Seychelles
 Central Bank of Solomon Islands
@@ -74,12 +75,12 @@ Central Bank of Sri Lanka
 Central bank of Sweden: Central Bank of Sweden, Sveriges Riksbank, Swedish Central Bank, Bank of Sweden, Sveriges Riskbank, Sveriges Risksbank, Mr. Heikensten
 Central Bank of Switzerland: Swiss National Bank, Banque nationale suisse, Board of the SNB
 Central Bank of The Bahamas
+Central Bank of The Gambia: Central Bank of The Gambia
 Central Bank of Trinidad and Tobago: Central Bank of Trinidad and Tobago, Central Bank of Trinidad & Tobago
 Central Bank of Turkey: Central Bank of Turkey, Central Bank of the Republic of Turkey, Central Bank of the Republic of Türkiye
 Central Bank of Uruguay
 Central Bank of the Philippines: Central Bank of the Philippines, Bangko Sentral ng Pilipinas
 Central Bank of the Republic of Kosovo
-Central Bank of Russia: Central Bank of Russia, Central Bank of the Russian Federation, Bank of Russia
 Central Bank of the United Arab Emirates
 Croatian National Bank: Croation National Bank
 Czech National Bank
@@ -97,6 +98,7 @@ Magyar Nemzeti Bank
 Maldives Monetary Authority
 Monetary Authority of Macao
 Monetary Authority of Singapore
+National Bank of Angola
 National Bank of Belgium
 National Bank of Cambodia
 National Bank of Romania
@@ -114,9 +116,13 @@ Reserve Bank of Malawi
 Reserve Bank of New Zealand: Reserve Bank of New Zealand, Reserve of the Bank of New Zealand
 Reserve Bank of South Africa
 Reserve Bank of Vanuatu
+Royal Monetary Authority of Bhutan
 Saudi Central Bank
 South African Reserve Bank
 State Bank of Pakistan
 Swiss Federal Banking Commission
+The People's Bank of China: The People's Bank of China, People¿s Bank of China, Peoples Bank of China
 United Nations Secretay-General's Special Advocate for Inclusive Finance for Development
 Universidad de Chile
+
+Miscellaneous (not central banks): Superintendent of Financial Institutions, Financial Services Authority, Saudi Arabian Monetary Agency, Bahrain Monetary Agency, Mon. Authority of Macao, Cayman Islands Monetary Authority, Ishrat Husain, Speech by Mr Martin Feldstein
